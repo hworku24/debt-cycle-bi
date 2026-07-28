@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: debt_cycle_pg
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-debt_cycle}
+      POSTGRES_USER: ${POSTGRES_USER:-bi_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
