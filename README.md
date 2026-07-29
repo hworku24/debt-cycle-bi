@@ -29,6 +29,17 @@ FRED API (14 national + 51 state series)
   GitHub Actions ── monthly cron ── commits refreshed report + brief
 ```
 
+## Planning and design
+
+| Document | Contents |
+|---|---|
+| [Requirements](docs/requirements.md) | Goals, features, limits, and stakeholder requirements the build is tested against |
+| [Wireframes](docs/wireframes/README.md) | Digital wireframes for the three dashboard pages |
+| [User flow](docs/user-flow.md) | Executive and analyst flow charts |
+| [Tech stack](docs/tech-stack.md) | Tools, languages, libraries, and the reasoning behind each |
+| [File structure](docs/file-structure.md) | Repository layout and conventions |
+| [Dashboard spec](docs/dashboard-spec.md) | The page-by-page spec both BI tools implement |
+
 ## How this maps to the BI Engineer role
 
 | Responsibility | Where it lives in this repo |

@@ -1,6 +1,30 @@
-# Stakeholder Requirements
+# Requirements Document
 
-This document simulates the requirements-gathering step of a client BI engagement: a stakeholder brief translated into concrete, testable requirements. The dashboards in both platforms are built against this document, and the platform comparison scores each tool on how well it satisfied it.
+This document covers the project's goals, features, and limits, then translates a simulated client brief into concrete, testable requirements. The dashboards in both platforms are built against this document, and the platform comparison scores each tool on how well it satisfied it.
+
+## Goals
+
+1. Demonstrate an end-to-end BI workflow: ingestion, data-quality validation, dimensional warehousing, dashboarding in two enterprise BI tools, and stakeholder-ready reporting.
+2. Answer a real analytical question: where does the US economy sit in the debt cycle, nationally and by state.
+3. Run as a living service, not a one-off analysis: monthly automated refresh with an auditable validation trail.
+4. Produce a written comparison of Qlik Sense and TIBCO Spotfire from building the identical dashboard in both.
+
+## Features
+
+- Automated ETL of 65 FRED series (14 national debt-cycle indicators, 51 state unemployment series) from 1990 to present
+- Hard data-quality gate before load: schema, duplicates, continuity, ranges, staleness
+- PostgreSQL star schema with derived monthly marts (yoy changes, rolling z-scores, yield-inversion flag, composite cycle pressure score)
+- Three-page executive dashboard implemented identically in Qlik Sense and Spotfire
+- Monthly LLM-generated executive brief (Claude on Amazon Bedrock) grounded in warehouse numbers
+- Scheduled monthly refresh via GitHub Actions with committed reports
+
+## Limits and out of scope
+
+- **No forecasting.** The tracker describes current and historical conditions; it does not predict recessions.
+- **Monthly grain.** Daily and weekly series are aggregated to months; intra-month moves are not visible.
+- **FRED is the only source.** No commercial data feeds; series availability and revisions follow FRED.
+- **Dashboards live on trial accounts.** They expire, so screenshots and the comparison doc are the durable artifacts.
+- **The LLM brief is descriptive, not advisory.** It summarizes the numbers; it does not give investment advice.
 
 ## Client persona
 

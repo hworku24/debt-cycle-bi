@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" font-family="Helvetica, Arial, sans-serif">
+  <style>
+    .frame { fill: #fafafa; stroke: #999; }
+    .box { fill: #fff; stroke: #bbb; }
+    .shade { fill: #e0e0e0; }
+    .t { fill: #333; font-size: 13px; }
+    .small { fill: #777; font-size: 10px; }
+    .big { fill: #222; font-size: 20px; font-weight: bold; }
+  </style>
+  <rect x="10" y="10" width="780" height="500" class="frame"/>
+  <text x="30" y="42" class="big">Page 2 · Debt Cycle View (macro)</text>
+  <text x="30" y="60" class="small">1990 to present · gray bands = NBER recessions · filters: date range, indicator toggle</text>
+
+  <!-- Main chart -->
+  <rect x="30" y="75" width="740" height="200" class="box"/>
+  <text x="42" y="95" class="t">Household + federal debt to GDP</text>
+  <rect x="120" y="100" width="26" height="165" class="shade"/>
+  <rect x="330" y="100" width="20" height="165" class="shade"/>
+  <rect x="560" y="100" width="34" height="165" class="shade"/>
+  <g stroke="#555" fill="none">
+    <polyline points="45,240 120,232 200,215 280,190 360,150 440,140 520,160 600,158 680,150 755,148"/>
+  </g>
+  <g stroke="#aaa" fill="none" stroke-dasharray="4 3">
+    <polyline points="45,250 120,246 200,238 280,225 360,215 440,200 520,175 600,150 680,135 755,128"/>
+  </g>
+  <text x="640" y="120" class="small">— household   ---- federal</text>
+
+  <!-- Secondary chart -->
+  <rect x="30" y="290" width="740" height="120" class="box"/>
+  <text x="42" y="310" class="t">Cycle pressure score + component z-scores</text>
+  <rect x="120" y="315" width="26" height="88" class="shade"/>
+  <rect x="560" y="315" width="34" height="88" class="shade"/>
+  <line x1="45" y1="365" x2="755" y2="365" stroke="#ccc"/>
+  <g stroke="#555" fill="none">
+    <polyline points="45,385 130,350 220,330 310,375 400,390 490,340 580,325 670,355 755,345"/>
+  </g>
+
+  <!-- Bottom panels -->
+  <rect x="30" y="425" width="360" height="70" class="box"/>
+  <text x="42" y="445" class="t">Credit conditions</text>
+  <text x="42" y="465" class="small">consumer credit yoy · cc + mortgage delinquency · 30y mortgage rate</text>
+  <rect x="410" y="425" width="360" height="70" class="box"/>
+  <text x="422" y="445" class="t">Money and prices</text>
+  <text x="422" y="465" class="small">CPI yoy · M2 yoy · fed funds</text>
+</svg>
