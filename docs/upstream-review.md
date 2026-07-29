@@ -4,8 +4,8 @@ Reviewed 2026-07-28. The upstream project is a web dashboard for metrics from Ra
 
 ## What we adopt
 
-1. **The Dalio framing.** Upstream categorizes metrics into deflationary-cycle, inflationary-cycle, and shared indicators. We adopt this as a `cycle_lens` attribute on `dim_series` so dashboards can group indicators the same way (Sprint 2).
-2. **Market-price indicators we currently lack.** Upstream tracks asset prices alongside credit data. We add: real GDP growth, S&P 500, Case-Shiller home prices, 10-year Treasury yield, and the trade-weighted dollar index (Sprint 2).
+1. **The Dalio framing.** Upstream categorizes metrics into deflationary-cycle, inflationary-cycle, and shared indicators. Adopted as a `cycle_lens` attribute on `dim_series` so dashboards can group indicators the same way (landed in Sprint 2).
+2. **Market-price indicators we initially lacked.** Upstream tracks asset prices alongside credit data. Added: real GDP growth, S&P 500, Case-Shiller home prices, 10-year Treasury yield, and the trade-weighted dollar index (landed in Sprint 2).
 3. **FRED + Postgres as the backbone.** Same core idea; we keep it.
 
 ## What we deliberately do differently

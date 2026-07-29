@@ -23,7 +23,8 @@ CREATE TABLE dim_series (
     category    TEXT NOT NULL,            -- debt / credit / rates / prices / money / labor / sentiment / cycle
     frequency   TEXT NOT NULL,            -- D / W / M / Q (native)
     units       TEXT NOT NULL,
-    geography   TEXT NOT NULL             -- 'US' or two-letter state code
+    geography   TEXT NOT NULL,            -- 'US' or two-letter state code
+    cycle_lens  TEXT NOT NULL             -- deflationary / inflationary / both (Dalio framing)
 );
 
 -- One row per series per native-frequency observation date.
@@ -58,6 +59,13 @@ CREATE TABLE mart_debt_cycle_monthly (
     unemployment          NUMERIC,
     consumer_sentiment    NUMERIC,
     recession             BOOLEAN,
+    gdp_growth            NUMERIC,
+    sp500                 NUMERIC,
+    sp500_yoy             NUMERIC,
+    home_price_index      NUMERIC,
+    home_price_index_yoy  NUMERIC,
+    treasury_10y          NUMERIC,
+    dollar_index          NUMERIC,
     household_debt_gdp_z  NUMERIC,
     debt_service_ratio_z  NUMERIC,
     cc_delinquency_z      NUMERIC,

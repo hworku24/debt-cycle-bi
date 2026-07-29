@@ -64,7 +64,7 @@ def check_series(series_id: str, df: pd.DataFrame) -> list[Issue]:
     if out_of_range:
         issues.append(Issue("warning", series_id, "range", f"{out_of_range} values outside [{lo}, {hi}]"))
 
-    max_lag = STALENESS_DAYS[meta["frequency"]]
+    max_lag = meta.get("staleness_days", STALENESS_DAYS[meta["frequency"]])
     age_days = (pd.Timestamp.now() - df["obs_date"].max()).days
     if age_days > max_lag:
         issues.append(Issue("warning", series_id, "staleness", f"latest observation is {age_days} days old (limit {max_lag})"))

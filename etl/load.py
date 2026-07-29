@@ -13,13 +13,15 @@ MART_COLUMNS = [
     "debt_service_ratio", "cc_delinquency", "mortgage_delinquency",
     "consumer_credit", "consumer_credit_yoy", "fedfunds", "mortgage_rate_30y",
     "yield_spread_10y2y", "yield_inverted", "cpi", "cpi_yoy", "m2", "m2_yoy",
-    "unemployment", "consumer_sentiment", "recession", "household_debt_gdp_z",
-    "debt_service_ratio_z", "cc_delinquency_z", "fedfunds_z", "cycle_pressure_score",
+    "unemployment", "consumer_sentiment", "recession", "gdp_growth", "sp500",
+    "sp500_yoy", "home_price_index", "home_price_index_yoy", "treasury_10y",
+    "dollar_index", "household_debt_gdp_z", "debt_service_ratio_z",
+    "cc_delinquency_z", "fedfunds_z", "cycle_pressure_score",
 ]
 
 LOAD_ORDER = {
     "dim_date": ["date_key", "full_date", "year", "quarter", "month", "month_name", "year_month"],
-    "dim_series": ["series_id", "series_name", "category", "frequency", "units", "geography"],
+    "dim_series": ["series_id", "series_name", "category", "frequency", "units", "geography", "cycle_lens"],
     "fact_observations": ["series_id", "obs_date", "value"],
     "mart_debt_cycle_monthly": MART_COLUMNS,
     "mart_state_monthly": ["year_month", "state", "unemployment_rate"],

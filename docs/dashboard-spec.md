@@ -24,6 +24,8 @@ Below the tiles: 24-month sparkline strip for each KPI.
 - Secondary chart: cycle pressure score with its four component z-scores, same period, recessions shaded.
 - Credit conditions panel: consumer credit yoy, delinquency rates, mortgage rate.
 - Money and prices panel: CPI yoy, M2 yoy, fed funds.
+- Markets panel: S&P 500 yoy, home price yoy, 10Y Treasury yield, dollar index.
+- Where the tool makes it easy, offer a filter on `dim_series.cycle_lens` to view deflationary vs inflationary indicators separately.
 
 ## Page 3: State Drill-Down (micro)
 

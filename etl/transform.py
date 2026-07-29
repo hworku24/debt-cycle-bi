@@ -25,6 +25,7 @@ def build_dim_series() -> pd.DataFrame:
             "frequency": m["frequency"],
             "units": m["units"],
             "geography": m.get("state", "US"),
+            "cycle_lens": m["cycle_lens"],
         })
     return pd.DataFrame(rows)
 
@@ -68,7 +69,7 @@ def build_mart_monthly(frames: dict[str, pd.DataFrame]) -> pd.DataFrame:
         cols[meta["mart_column"]] = _monthly(s, meta["frequency"])
     mart = pd.DataFrame(cols)
 
-    for col in ("consumer_credit", "cpi", "m2"):
+    for col in ("consumer_credit", "cpi", "m2", "sp500", "home_price_index"):
         mart[f"{col}_yoy"] = mart[col].pct_change(12) * 100
 
     for col in PRESSURE_COMPONENTS:

@@ -11,7 +11,7 @@ This document covers the project's goals, features, and limits, then translates 
 
 ## Features
 
-- Automated ETL of 65 FRED series (14 national debt-cycle indicators, 51 state unemployment series) from 1990 to present
+- Automated ETL of 70 FRED series (19 national debt-cycle and market indicators, 51 state unemployment series) from 1990 to present
 - Hard data-quality gate before load: schema, duplicates, continuity, ranges, staleness
 - PostgreSQL star schema with derived monthly marts (yoy changes, rolling z-scores, yield-inversion flag, composite cycle pressure score)
 - Three-page executive dashboard implemented identically in Qlik Sense and Spotfire

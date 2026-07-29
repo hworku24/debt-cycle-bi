@@ -1,13 +1,13 @@
 # Debt Cycle BI Tracker
 
-A self-refreshing business intelligence pipeline for US debt-cycle and recession-risk analysis. Python ETL ingests 65 national and state-level series from the FRED API, runs an automated data-quality gate, warehouses them in a PostgreSQL star schema, and feeds identical executive dashboards in **Qlik Sense** and **TIBCO Spotfire**. A Claude model on **Amazon Bedrock** turns each month's warehouse metrics into a one-page executive brief, and GitHub Actions refreshes everything monthly.
+A self-refreshing business intelligence pipeline for US debt-cycle and recession-risk analysis. Python ETL ingests 70 national and state-level series from the FRED API, runs an automated data-quality gate, warehouses them in a PostgreSQL star schema, and feeds identical executive dashboards in **Qlik Sense** and **TIBCO Spotfire**. A Claude model on **Amazon Bedrock** turns each month's warehouse metrics into a one-page executive brief, and GitHub Actions refreshes everything monthly.
 
 Architecture inspired by the open-source [debt-cycles-tracker](https://github.com/SimSimButDifferent/debt-cycles-tracker); the warehouse modeling, validation gate, BI layer, and brief generation here are original work.
 
 ## Architecture
 
 ```
-FRED API (14 national + 51 state series)
+FRED API (19 national + 51 state series)
         |
         v
   etl/extract.py ── raw JSON ──► data/raw/fred/
@@ -92,7 +92,7 @@ Runs before anything touches the warehouse; failures are graded critical (pipeli
 | `mart_state_monthly` | one row per state per month (unemployment drill-down) |
 | `dim_series`, `dim_date` | conformed dimensions |
 
-Derived indicators are computed once in the warehouse so both BI tools show identical numbers.
+Derived indicators are computed once in the warehouse so both BI tools show identical numbers. Each series in `dim_series` also carries a `cycle_lens` tag (deflationary, inflationary, or both), the categorization from Dalio's debt-cycle framework, so dashboards can group indicators by cycle type.
 
 ## Monthly executive brief
 

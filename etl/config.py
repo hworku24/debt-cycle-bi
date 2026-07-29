@@ -29,22 +29,30 @@ BRIEF_MODEL = os.getenv("BRIEF_MODEL", "anthropic.claude-opus-5")
 START_DATE = "1990-01-01"
 
 # National macro series. mart_column is the wide-mart column the series feeds;
-# transform derives *_yoy and *_z columns from these.
+# transform derives *_yoy and *_z columns from these. cycle_lens follows the
+# deflationary/inflationary categorization from Dalio's debt-cycle framework
+# (see docs/upstream-review.md). staleness_days overrides the per-frequency
+# default for series with slow release schedules.
 NATIONAL_SERIES = {
-    "HDTGPDUSQ163N": {"name": "Household debt to GDP",            "category": "debt",       "frequency": "Q", "units": "% of GDP",  "mart_column": "household_debt_gdp"},
-    "GFDEGDQ188S":   {"name": "Federal debt to GDP",              "category": "debt",       "frequency": "Q", "units": "% of GDP",  "mart_column": "federal_debt_gdp"},
-    "TDSP":          {"name": "Household debt service ratio",     "category": "debt",       "frequency": "Q", "units": "%",         "mart_column": "debt_service_ratio"},
-    "DRCCLACBS":     {"name": "Credit card delinquency rate",     "category": "credit",     "frequency": "Q", "units": "%",         "mart_column": "cc_delinquency"},
-    "DRSFRMACBS":    {"name": "Mortgage delinquency rate",        "category": "credit",     "frequency": "Q", "units": "%",         "mart_column": "mortgage_delinquency"},
-    "TOTALSL":       {"name": "Total consumer credit",            "category": "credit",     "frequency": "M", "units": "$B",        "mart_column": "consumer_credit"},
-    "FEDFUNDS":      {"name": "Federal funds rate",               "category": "rates",      "frequency": "M", "units": "%",         "mart_column": "fedfunds"},
-    "MORTGAGE30US":  {"name": "30-year mortgage rate",            "category": "rates",      "frequency": "W", "units": "%",         "mart_column": "mortgage_rate_30y"},
-    "T10Y2Y":        {"name": "10Y minus 2Y Treasury spread",     "category": "rates",      "frequency": "D", "units": "pp",        "mart_column": "yield_spread_10y2y"},
-    "CPIAUCSL":      {"name": "CPI, all urban consumers",         "category": "prices",     "frequency": "M", "units": "index",     "mart_column": "cpi"},
-    "M2SL":          {"name": "M2 money stock",                   "category": "money",      "frequency": "M", "units": "$B",        "mart_column": "m2"},
-    "UNRATE":        {"name": "Unemployment rate",                "category": "labor",      "frequency": "M", "units": "%",         "mart_column": "unemployment"},
-    "UMCSENT":       {"name": "Consumer sentiment (U. Michigan)", "category": "sentiment",  "frequency": "M", "units": "index",     "mart_column": "consumer_sentiment"},
-    "USREC":         {"name": "NBER recession indicator",         "category": "cycle",      "frequency": "M", "units": "0/1",       "mart_column": "recession"},
+    "HDTGPDUSQ163N": {"name": "Household debt to GDP",            "category": "debt",       "frequency": "Q", "units": "% of GDP",  "mart_column": "household_debt_gdp",   "cycle_lens": "deflationary"},
+    "GFDEGDQ188S":   {"name": "Federal debt to GDP",              "category": "debt",       "frequency": "Q", "units": "% of GDP",  "mart_column": "federal_debt_gdp",     "cycle_lens": "both"},
+    "TDSP":          {"name": "Household debt service ratio",     "category": "debt",       "frequency": "Q", "units": "%",         "mart_column": "debt_service_ratio",   "cycle_lens": "both"},
+    "DRCCLACBS":     {"name": "Credit card delinquency rate",     "category": "credit",     "frequency": "Q", "units": "%",         "mart_column": "cc_delinquency",       "cycle_lens": "deflationary"},
+    "DRSFRMACBS":    {"name": "Mortgage delinquency rate",        "category": "credit",     "frequency": "Q", "units": "%",         "mart_column": "mortgage_delinquency", "cycle_lens": "deflationary"},
+    "TOTALSL":       {"name": "Total consumer credit",            "category": "credit",     "frequency": "M", "units": "$B",        "mart_column": "consumer_credit",      "cycle_lens": "deflationary"},
+    "FEDFUNDS":      {"name": "Federal funds rate",               "category": "rates",      "frequency": "M", "units": "%",         "mart_column": "fedfunds",             "cycle_lens": "both"},
+    "MORTGAGE30US":  {"name": "30-year mortgage rate",            "category": "rates",      "frequency": "W", "units": "%",         "mart_column": "mortgage_rate_30y",    "cycle_lens": "deflationary"},
+    "T10Y2Y":        {"name": "10Y minus 2Y Treasury spread",     "category": "rates",      "frequency": "D", "units": "pp",        "mart_column": "yield_spread_10y2y",   "cycle_lens": "deflationary"},
+    "DGS10":         {"name": "10-year Treasury yield",           "category": "rates",      "frequency": "D", "units": "%",         "mart_column": "treasury_10y",         "cycle_lens": "deflationary"},
+    "CPIAUCSL":      {"name": "CPI, all urban consumers",         "category": "prices",     "frequency": "M", "units": "index",     "mart_column": "cpi",                  "cycle_lens": "both"},
+    "M2SL":          {"name": "M2 money stock",                   "category": "money",      "frequency": "M", "units": "$B",        "mart_column": "m2",                   "cycle_lens": "inflationary"},
+    "UNRATE":        {"name": "Unemployment rate",                "category": "labor",      "frequency": "M", "units": "%",         "mart_column": "unemployment",         "cycle_lens": "deflationary"},
+    "UMCSENT":       {"name": "Consumer sentiment (U. Michigan)", "category": "sentiment",  "frequency": "M", "units": "index",     "mart_column": "consumer_sentiment",   "cycle_lens": "both"},
+    "USREC":         {"name": "NBER recession indicator",         "category": "cycle",      "frequency": "M", "units": "0/1",       "mart_column": "recession",            "cycle_lens": "both"},
+    "A191RL1Q225SBEA": {"name": "Real GDP growth (annualized)",   "category": "growth",     "frequency": "Q", "units": "%",         "mart_column": "gdp_growth",           "cycle_lens": "both"},
+    "SP500":         {"name": "S&P 500 index",                    "category": "markets",    "frequency": "D", "units": "index",     "mart_column": "sp500",                "cycle_lens": "deflationary"},
+    "CSUSHPINSA":    {"name": "Case-Shiller national home price index", "category": "housing", "frequency": "M", "units": "index",  "mart_column": "home_price_index",     "cycle_lens": "deflationary", "staleness_days": 100},
+    "DTWEXBGS":      {"name": "Trade-weighted dollar index",      "category": "markets",    "frequency": "D", "units": "index",     "mart_column": "dollar_index",         "cycle_lens": "inflationary"},
 }
 
 # Microeconomic drill-down: unemployment rate by state, FRED id pattern {code}UR.
@@ -56,7 +64,7 @@ STATE_CODES = [
     "WV", "WI", "WY",
 ]
 STATE_SERIES = {
-    f"{code}UR": {"name": f"Unemployment rate, {code}", "category": "labor", "frequency": "M", "units": "%", "state": code}
+    f"{code}UR": {"name": f"Unemployment rate, {code}", "category": "labor", "frequency": "M", "units": "%", "state": code, "cycle_lens": "deflationary"}
     for code in STATE_CODES
 }
 
@@ -73,6 +81,9 @@ RANGE_BOUNDS = {
     "money":     (0, 30000),
     "sentiment": (0, 150),
     "cycle":     (0, 1),
+    "growth":    (-35, 40),
+    "markets":   (0, 50000),
+    "housing":   (0, 500),
 }
 # Max acceptable days since the latest observation, by native frequency.
 STALENESS_DAYS = {"D": 14, "W": 21, "M": 75, "Q": 190}

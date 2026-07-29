@@ -2,6 +2,16 @@
 
 Work is broken into short sprints, roughly one working session each. Sprints 4 through 6 depend on BI trial accounts that expire after 30 days, so don't start those until everything before them is done.
 
+## Closing out a sprint
+
+Every sprint ends with a review pass before its final commit. A senior engineer is the audience for this repo, so anything touched this sprint gets read once with these checks:
+
+- no em-dashes or en-dashes anywhere
+- no inflated wording or filler jargon (leverage, robust, seamless, comprehensive, cutting-edge, and the like); plain words over impressive ones
+- no templated or repetitive structure that reads machine-written
+- every number, series id, and claim in the docs matches the code
+- would I be comfortable explaining this line by line in a code review
+
 ## Sprint 0: scaffold (done)
 
 Repo structure, ETL modules, schema, planning docs, upstream review. Committed 2026-07-28.
@@ -24,11 +34,12 @@ Exit criteria: all pipeline stages pass against live FRED data.
 
 Add the market-price indicators the upstream project tracks and we skipped, plus its cycle categorization.
 
-- [ ] New series in config: A191RL1Q225SBEA (real GDP growth), SP500, CSUSHPINSA (Case-Shiller), DGS10, DTWEXBGS (dollar index)
-- [ ] `cycle_lens` column on dim_series (deflationary / inflationary / both)
-- [ ] New mart columns, including home price yoy and S&P yoy
-- [ ] Re-run pipeline, update the series counts in README and the dashboard spec if the pages change
-- [ ] SP500 only goes back about 10 years on FRED. Check whether that trips the continuity check and decide how to handle it
+- [x] New series in config: A191RL1Q225SBEA (real GDP growth), SP500, CSUSHPINSA (Case-Shiller), DGS10, DTWEXBGS (dollar index)
+- [x] `cycle_lens` column on dim_series (deflationary / inflationary / both)
+- [x] New mart columns, including home price yoy and S&P yoy
+- [x] Series counts updated in README, requirements, and the dashboard spec (markets panel added to page 2)
+- [x] Short-history and slow-release series: SP500 and the other daily series skip the monthly continuity check by design; Case-Shiller's 2-month release lag got a staleness_days override
+- [ ] Re-run the pipeline against live data once Sprint 1 unblocks, confirm the new columns populate
 
 Exit criteria: validation passes with the expanded catalog, new columns populated.
 
