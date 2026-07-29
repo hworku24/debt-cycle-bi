@@ -16,21 +16,20 @@ Every sprint ends with a review pass before its final commit. A senior engineer 
 
 Repo structure, ETL modules, schema, planning docs, upstream review. Committed 2026-07-28.
 
-## Sprint 1: first end-to-end run
+## Sprint 1: first end-to-end run (done)
 
 Get real data flowing on this machine.
 
-- [ ] FRED API key into `.env` (free, fred.stlouisfed.org)
-- [ ] Install Docker Desktop, or point `.env` at an existing local Postgres
-- [ ] `docker compose up -d`
-- [ ] `pip install -r requirements.txt`
-- [ ] `python -m etl.run_pipeline --skip-brief`, fix whatever breaks on first contact with live data
-- [ ] Spot check the marts: latest month present, pressure score populated, 51 states in mart_state_monthly
-- [ ] Commit the first validation report
+- [x] FRED API key into `.env` (free, fred.stlouisfed.org)
+- [x] Docker Desktop was already installed; `docker compose up -d`
+- [x] `pip install -r requirements.txt`
+- [x] `python -m etl.run_pipeline --skip-brief`. First contact with live data surfaced three real issues: numpy scalars need unwrapping before psycopg2 inserts, TOTALSL is reported in millions not billions, and TDSP has no data before 2005 so leading gaps had to be excluded from the missing-value check
+- [x] Spot check the marts: data through 2026-07, pressure score 0.67, 51 states, 54,394 fact rows
+- [x] Commit the first validation report. Six warnings remain, all staleness: five quarterly series sitting between normal releases, plus HDTGPDUSQ163N which has stopped updating (see backlog)
 
-Exit criteria: all pipeline stages pass against live FRED data.
+Exit criteria met: all pipeline stages pass against live FRED data.
 
-## Sprint 2: metric expansion
+## Sprint 2: metric expansion (done)
 
 Add the market-price indicators the upstream project tracks and we skipped, plus its cycle categorization.
 
@@ -39,7 +38,7 @@ Add the market-price indicators the upstream project tracks and we skipped, plus
 - [x] New mart columns, including home price yoy and S&P yoy
 - [x] Series counts updated in README, requirements, and the dashboard spec (markets panel added to page 2)
 - [x] Short-history and slow-release series: SP500 and the other daily series skip the monthly continuity check by design; Case-Shiller's 2-month release lag got a staleness_days override
-- [ ] Re-run the pipeline against live data once Sprint 1 unblocks, confirm the new columns populate
+- [x] Re-run against live data: sp500_yoy 19.0%, home_price_index_yoy 1.3% in the latest month, cycle_lens populated for all 70 series
 
 Exit criteria: validation passes with the expanded catalog, new columns populated.
 
@@ -80,6 +79,10 @@ Same three pages, same spec.
 - [ ] Full read-through of the repo with fresh eyes, fix anything that doesn't explain itself
 
 Exit criteria: no empty cells in comparison.md.
+
+## Backlog (not scheduled)
+
+- Replace HDTGPDUSQ163N. The validation gate flagged it 483 days stale on the first live run; the IMF-sourced household debt to GDP series has effectively stopped updating. Candidate replacement: BIS credit-to-households series (QUSPAM770A) or computing the ratio from Z.1 components.
 
 ## Sprint 7: interview prep
 

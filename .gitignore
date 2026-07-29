@@ -5,6 +5,4 @@ __pycache__/
 venv/
 data/raw/*
 !data/raw/.gitkeep
-reports/*
-!reports/.gitkeep
 .DS_Store

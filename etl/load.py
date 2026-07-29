@@ -29,11 +29,18 @@ LOAD_ORDER = {
 
 
 def insert_frame(cur, table: str, df: pd.DataFrame, columns: list[str]) -> None:
-    clean = df[columns].replace({np.nan: None, pd.NaT: None})
+    # psycopg2 has no adapters for numpy scalars, so unwrap them to Python types
+    rows = (
+        tuple(
+            None if pd.isna(v) else (v.item() if isinstance(v, np.generic) else v)
+            for v in row
+        )
+        for row in df[columns].itertuples(index=False, name=None)
+    )
     execute_values(
         cur,
         f"INSERT INTO {table} ({', '.join(columns)}) VALUES %s",
-        clean.itertuples(index=False, name=None),
+        rows,
         page_size=5000,
     )
 

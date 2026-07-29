@@ -48,9 +48,13 @@ def check_series(series_id: str, df: pd.DataFrame) -> list[Issue]:
     if dupes:
         issues.append(Issue("critical", series_id, "duplicate_dates", f"{dupes} duplicate observation dates"))
 
-    missing_pct = df["value"].isna().mean() * 100
+    # Ignore leading missing values: FRED pads with '.' before a series'
+    # actual start (e.g. TDSP begins in 2005 but the request starts at 1990).
+    vals = df["value"]
+    first_valid = vals.first_valid_index()
+    missing_pct = 100.0 if first_valid is None else vals.loc[first_valid:].isna().mean() * 100
     if missing_pct > 10:
-        issues.append(Issue("warning", series_id, "missing_values", f"{missing_pct:.1f}% missing observations"))
+        issues.append(Issue("warning", series_id, "missing_values", f"{missing_pct:.1f}% missing after series start"))
 
     if meta["frequency"] == "M":
         months = df["obs_date"].dt.to_period("M").drop_duplicates()
@@ -59,7 +63,7 @@ def check_series(series_id: str, df: pd.DataFrame) -> list[Issue]:
         if gaps:
             issues.append(Issue("warning", series_id, "continuity", f"{gaps} missing months mid-series"))
 
-    lo, hi = RANGE_BOUNDS[meta["category"]]
+    lo, hi = meta.get("bounds", RANGE_BOUNDS[meta["category"]])
     out_of_range = int((~df["value"].dropna().between(lo, hi)).sum())
     if out_of_range:
         issues.append(Issue("warning", series_id, "range", f"{out_of_range} values outside [{lo}, {hi}]"))
