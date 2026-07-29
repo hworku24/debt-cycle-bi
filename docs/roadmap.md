@@ -42,16 +42,15 @@ Add the market-price indicators the upstream project tracks and we skipped, plus
 
 Exit criteria: validation passes with the expanded catalog, new columns populated.
 
-## Sprint 3: publish and automate
+## Sprint 3: publish and automate (done)
 
-- [ ] Pick the GitHub repo name. The Desktop folder is named after the upstream repo; the public repo should not be, to avoid looking like a fork
-- [ ] Push, then check that the SVG wireframes and mermaid diagrams render on GitHub
-- [ ] Add FRED_API_KEY as a repo secret, run the workflow by hand until it goes green
-- [ ] AWS secrets if I want the workflow committing briefs. Optional, the pipeline works without it
-- [ ] Generate one brief locally and commit it so reviewers can see an example
-- [ ] Link the repo from resume and portfolio
+- [x] Repo name: debt-cycle-bi, public, distinct from the upstream project's name
+- [x] Pushed; SVG wireframes and mermaid diagrams render on GitHub
+- [x] FRED_API_KEY repo secret added; workflow went green on the first manual dispatch and committed a refreshed validation report as github-actions[bot]
+- [ ] AWS credentials for the Bedrock brief. Not set up on this machine yet; the pipeline runs without it and the README says the step is optional
+- [x] Repo linked from the resume
 
-Exit criteria: a manually triggered Actions run completes and commits a fresh validation report.
+Exit criteria met: a manually triggered Actions run completed and committed a fresh validation report.
 
 ## Sprint 4: Qlik dashboard
 
