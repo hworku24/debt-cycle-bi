@@ -6,4 +6,3 @@ venv/
 data/raw/*
 !data/raw/.gitkeep
 .DS_Store
-data/exports/

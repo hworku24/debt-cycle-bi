@@ -1,0 +1,71 @@
+series_id,series_name,category,frequency,units,geography,cycle_lens
+HDTGPDUSQ163N,Household debt to GDP,debt,Q,% of GDP,US,deflationary
+GFDEGDQ188S,Federal debt to GDP,debt,Q,% of GDP,US,both
+TDSP,Household debt service ratio,debt,Q,%,US,both
+DRCCLACBS,Credit card delinquency rate,credit,Q,%,US,deflationary
+DRSFRMACBS,Mortgage delinquency rate,credit,Q,%,US,deflationary
+TOTALSL,Total consumer credit,credit,M,$M,US,deflationary
+FEDFUNDS,Federal funds rate,rates,M,%,US,both
+MORTGAGE30US,30-year mortgage rate,rates,W,%,US,deflationary
+T10Y2Y,10Y minus 2Y Treasury spread,rates,D,pp,US,deflationary
+DGS10,10-year Treasury yield,rates,D,%,US,deflationary
+CPIAUCSL,"CPI, all urban consumers",prices,M,index,US,both
+M2SL,M2 money stock,money,M,$B,US,inflationary
+UNRATE,Unemployment rate,labor,M,%,US,deflationary
+UMCSENT,Consumer sentiment (U. Michigan),sentiment,M,index,US,both
+USREC,NBER recession indicator,cycle,M,0/1,US,both
+A191RL1Q225SBEA,Real GDP growth (annualized),growth,Q,%,US,both
+SP500,S&P 500 index,markets,D,index,US,deflationary
+CSUSHPINSA,Case-Shiller national home price index,housing,M,index,US,deflationary
+DTWEXBGS,Trade-weighted dollar index,markets,D,index,US,inflationary
+ALUR,"Unemployment rate, AL",labor,M,%,AL,deflationary
+AKUR,"Unemployment rate, AK",labor,M,%,AK,deflationary
+AZUR,"Unemployment rate, AZ",labor,M,%,AZ,deflationary
+ARUR,"Unemployment rate, AR",labor,M,%,AR,deflationary
+CAUR,"Unemployment rate, CA",labor,M,%,CA,deflationary
+COUR,"Unemployment rate, CO",labor,M,%,CO,deflationary
+CTUR,"Unemployment rate, CT",labor,M,%,CT,deflationary
+DEUR,"Unemployment rate, DE",labor,M,%,DE,deflationary
+DCUR,"Unemployment rate, DC",labor,M,%,DC,deflationary
+FLUR,"Unemployment rate, FL",labor,M,%,FL,deflationary
+GAUR,"Unemployment rate, GA",labor,M,%,GA,deflationary
+HIUR,"Unemployment rate, HI",labor,M,%,HI,deflationary
+IDUR,"Unemployment rate, ID",labor,M,%,ID,deflationary
+ILUR,"Unemployment rate, IL",labor,M,%,IL,deflationary
+INUR,"Unemployment rate, IN",labor,M,%,IN,deflationary
+IAUR,"Unemployment rate, IA",labor,M,%,IA,deflationary
+KSUR,"Unemployment rate, KS",labor,M,%,KS,deflationary
+KYUR,"Unemployment rate, KY",labor,M,%,KY,deflationary
+LAUR,"Unemployment rate, LA",labor,M,%,LA,deflationary
+MEUR,"Unemployment rate, ME",labor,M,%,ME,deflationary
+MDUR,"Unemployment rate, MD",labor,M,%,MD,deflationary
+MAUR,"Unemployment rate, MA",labor,M,%,MA,deflationary
+MIUR,"Unemployment rate, MI",labor,M,%,MI,deflationary
+MNUR,"Unemployment rate, MN",labor,M,%,MN,deflationary
+MSUR,"Unemployment rate, MS",labor,M,%,MS,deflationary
+MOUR,"Unemployment rate, MO",labor,M,%,MO,deflationary
+MTUR,"Unemployment rate, MT",labor,M,%,MT,deflationary
+NEUR,"Unemployment rate, NE",labor,M,%,NE,deflationary
+NVUR,"Unemployment rate, NV",labor,M,%,NV,deflationary
+NHUR,"Unemployment rate, NH",labor,M,%,NH,deflationary
+NJUR,"Unemployment rate, NJ",labor,M,%,NJ,deflationary
+NMUR,"Unemployment rate, NM",labor,M,%,NM,deflationary
+NYUR,"Unemployment rate, NY",labor,M,%,NY,deflationary
+NCUR,"Unemployment rate, NC",labor,M,%,NC,deflationary
+NDUR,"Unemployment rate, ND",labor,M,%,ND,deflationary
+OHUR,"Unemployment rate, OH",labor,M,%,OH,deflationary
+OKUR,"Unemployment rate, OK",labor,M,%,OK,deflationary
+ORUR,"Unemployment rate, OR",labor,M,%,OR,deflationary
+PAUR,"Unemployment rate, PA",labor,M,%,PA,deflationary
+RIUR,"Unemployment rate, RI",labor,M,%,RI,deflationary
+SCUR,"Unemployment rate, SC",labor,M,%,SC,deflationary
+SDUR,"Unemployment rate, SD",labor,M,%,SD,deflationary
+TNUR,"Unemployment rate, TN",labor,M,%,TN,deflationary
+TXUR,"Unemployment rate, TX",labor,M,%,TX,deflationary
+UTUR,"Unemployment rate, UT",labor,M,%,UT,deflationary
+VTUR,"Unemployment rate, VT",labor,M,%,VT,deflationary
+VAUR,"Unemployment rate, VA",labor,M,%,VA,deflationary
+WAUR,"Unemployment rate, WA",labor,M,%,WA,deflationary
+WVUR,"Unemployment rate, WV",labor,M,%,WV,deflationary
+WIUR,"Unemployment rate, WI",labor,M,%,WI,deflationary
+WYUR,"Unemployment rate, WY",labor,M,%,WY,deflationary
