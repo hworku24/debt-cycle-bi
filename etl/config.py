@@ -21,9 +21,10 @@ DB = {
 
 FRED_API_KEY = os.getenv("FRED_API_KEY", "")
 
-# Claude on Amazon Bedrock, used for the monthly executive brief.
+# Claude on Amazon Bedrock, used for the monthly executive brief. The id is a
+# cross-region inference profile on the classic bedrock-runtime endpoint.
 AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
-BRIEF_MODEL = os.getenv("BRIEF_MODEL", "anthropic.claude-opus-5")
+BRIEF_MODEL = os.getenv("BRIEF_MODEL", "us.anthropic.claude-sonnet-4-5-20250929-v1:0")
 
 # History window loaded into the warehouse.
 START_DATE = "1990-01-01"

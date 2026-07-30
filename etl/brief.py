@@ -21,6 +21,11 @@ lowest current unemployment.
 State unemployment extremes (latest month):
 {state_table}
 
+Note on the data: quarterly series (debt ratios, debt service, delinquencies, GDP \
+growth) publish one to two quarters behind, so missing values in the most recent \
+months are normal release lag, not data loss. When discussing them, use the latest \
+available reading and say which month it is from.
+
 Write a one-page markdown memo titled "Debt Cycle Brief - {latest_month}" with \
 sections: What Changed This Month, Cycle Position (reference the z-scores and \
 cycle_pressure_score), Regional Notes, and What To Watch Next Month. Ground every \
@@ -54,7 +59,7 @@ def fetch_context() -> tuple[pd.DataFrame, pd.DataFrame]:
 
 def run() -> None:
     try:
-        from anthropic import AnthropicBedrockMantle
+        from anthropic import AnthropicBedrock
     except ImportError:
         print("  brief skipped: anthropic SDK not installed (pip install 'anthropic[bedrock]')")
         return
@@ -73,7 +78,7 @@ def run() -> None:
     )
 
     try:
-        client = AnthropicBedrockMantle(aws_region=AWS_REGION)
+        client = AnthropicBedrock(aws_region=AWS_REGION)
         response = client.messages.create(
             model=BRIEF_MODEL,
             max_tokens=2000,

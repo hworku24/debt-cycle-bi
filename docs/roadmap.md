@@ -47,7 +47,7 @@ Exit criteria: validation passes with the expanded catalog, new columns populate
 - [x] Repo name: debt-cycle-bi, public, distinct from the upstream project's name
 - [x] Pushed; SVG wireframes and mermaid diagrams render on GitHub
 - [x] FRED_API_KEY repo secret added; workflow went green on the first manual dispatch and committed a refreshed validation report as github-actions[bot]
-- [ ] AWS credentials for the Bedrock brief. Not set up on this machine yet; the pipeline runs without it and the README says the step is optional
+- [x] AWS set up; first executive brief generated and committed (reports/briefs/2026-07.md). The account only has the classic bedrock-runtime endpoint, so the brief uses a cross-region inference profile (us.anthropic.claude-sonnet-4-5) instead of the newer mantle endpoint ids
 - [x] Repo linked from the resume
 
 Exit criteria met: a manually triggered Actions run completed and committed a fresh validation report.
