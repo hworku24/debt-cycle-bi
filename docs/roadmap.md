@@ -54,13 +54,13 @@ Exit criteria met: a manually triggered Actions run completed and committed a fr
 
 ## Sprint 4: Qlik dashboard
 
-Trial clock starts here.
+Trial clock started 2026-07-30 (Qlik Cloud Analytics, 30 days).
 
-- [ ] Start the Qlik Sense trial
-- [ ] Connect to Postgres. If the cloud trial can't reach localhost, export the marts to CSV and note the workaround in comparison.md
-- [ ] Build the three pages against docs/dashboard-spec.md and the wireframes
-- [ ] Screenshots into docs/screenshots/, prefixed qlik-
-- [ ] Write down observations in comparison.md while they're fresh, not at the end
+- [x] Trial started; app "Debt Cycle BI" created in the tenant
+- [x] Data loaded from the repo's published extracts (cloud trial cannot reach localhost; see comparison.md build notes)
+- [x] Built the three pages: Current Conditions (8 KPIs + pressure trend), Debt Cycle View (4 macro charts), State Drill-Down (sorted bar, state vs national trend, 12-month change table). All verified rendering with live values
+- [x] Observations captured in comparison.md while fresh
+- [ ] Screenshots into docs/screenshots/, prefixed qlik-, cropped to the canvas
 
 ## Sprint 5: Spotfire dashboard
 
