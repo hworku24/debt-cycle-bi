@@ -24,8 +24,8 @@ State unemployment extremes (latest month):
 Write a one-page markdown memo titled "Debt Cycle Brief - {latest_month}" with \
 sections: What Changed This Month, Cycle Position (reference the z-scores and \
 cycle_pressure_score), Regional Notes, and What To Watch Next Month. Ground every \
-claim in the numbers provided; do not invent data. Keep it under 500 words and \
-write for a non-technical executive audience."""
+claim in the numbers provided; do not invent data. Keep it under 500 words, use \
+plain punctuation (no em dashes), and write for a non-technical executive audience."""
 
 
 def fetch_context() -> tuple[pd.DataFrame, pd.DataFrame]:
