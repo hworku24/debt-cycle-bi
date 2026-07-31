@@ -1,6 +1,6 @@
 # Platform Comparison: Qlik Sense vs. TIBCO Spotfire
 
-This comparison is based on building the same three-page debt-cycle dashboard in Qlik Sense and TIBCO Spotfire. Both versions use the requirements in [`docs/dashboard-spec.md`](docs/dashboard-spec.md) and the same CSV extracts from the PostgreSQL warehouse.
+This comparison is based on building the same three-page debt-cycle dashboard in Qlik Sense and TIBCO Spotfire. Both versions use the requirements in [`docs/dashboard-spec.md`](dashboard-spec.md) and the same CSV extracts from the PostgreSQL warehouse.
 
 Each category is scored from 1 to 5. The goal is not to select one overall winner, but to identify which platform worked better for each part of the project.
 
