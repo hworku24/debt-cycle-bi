@@ -10,7 +10,7 @@ Short sprints, roughly one evening each. Sprints 4 through 6 depend on BI trial 
 
 ## Sprint 0: scaffold (done)
 
-Repo structure, ETL modules, schema, planning docs, upstream review. Committed 2026-07-28.
+Repo structure, ETL modules, schema, planning docs. Committed 2026-07-28.
 
 ## Sprint 1: first end-to-end run (done)
 
@@ -27,7 +27,7 @@ Exit criteria met: all pipeline stages pass against live FRED data.
 
 ## Sprint 2: metric expansion (done)
 
-Add the market-price indicators the upstream project tracks and we skipped, plus its cycle categorization.
+Add the market-price indicators the first pass skipped, plus the cycle categorization.
 
 - [x] New series in config: A191RL1Q225SBEA (real GDP growth), SP500, CSUSHPINSA (Case-Shiller), DGS10, DTWEXBGS (dollar index)
 - [x] `cycle_lens` column on dim_series (deflationary / inflationary / both)
@@ -40,7 +40,7 @@ Exit criteria: validation passes with the expanded catalog, new columns populate
 
 ## Sprint 3: publish and automate (done)
 
-- [x] Repo name: debt-cycle-bi, public, distinct from the upstream project's name
+- [x] Repo name: debt-cycle-bi, public
 - [x] Pushed; SVG wireframes and mermaid diagrams render on GitHub
 - [x] FRED_API_KEY repo secret added; workflow went green on the first manual dispatch and committed a refreshed validation report as github-actions[bot]
 - [x] AWS set up; first executive brief generated and committed (reports/briefs/2026-07.md). The account only has the classic bedrock-runtime endpoint, so the brief uses a cross-region inference profile (us.anthropic.claude-sonnet-4-5) instead of the newer mantle endpoint ids

@@ -23,6 +23,21 @@ Filled in after both dashboards are built against docs/dashboard-spec.md. Score 
 - Marking (click a bar, other visualizations filter) works across visualizations on the same data table without configuration, comparable to Qlik selections.
 - Spec deviation, same as Qlik: no recession shading, and the state view uses a sorted bar chart rather than a choropleth. The state bar chart shows the 1990-2026 average per state rather than the latest month, since a latest-value expression in the Spotfire UI was not worth the time.
 
+## What the free tiers do and do not include
+
+Both dashboards were built on free trial tiers, which constrains what the comparison can claim.
+
+| Constraint | Qlik Cloud Analytics trial | Spotfire Analyst trial |
+|---|---|---|
+| Duration | 30 days | 30 days |
+| Authoring surface | Full browser authoring | Windows desktop client only, no browser authoring |
+| Connectivity | Cloud tenant cannot reach a local Postgres, so both loaded published CSV extracts instead | Same constraint |
+| Automation | Engine JSON-RPC and REST APIs available, which is how the whole app was scripted | No authoring API exposed; IronPython automation is not in the trial |
+| Scheduling and alerting | Not exercised | Not exercised |
+| Governance, row-level security, deployment | Out of scope on both | Out of scope on both |
+
+What that means for the scores below: this compares the two as authoring environments for a single analyst against a fixed spec. It says nothing about how either behaves at enterprise scale, under concurrent load, or with governance requirements, because none of that is reachable on a trial.
+
 ## Setup and connectivity
 
 Scores are 1 to 5 from building the identical three-page dashboard in both tools against docs/dashboard-spec.md.
@@ -49,7 +64,7 @@ Scores are 1 to 5 from building the identical three-page dashboard in both tools
 
 | Dimension | Qlik | Spotfire | Notes |
 |---|---|---|---|
-| Learning curve | 3 | 4 | Spotfire's property panel is more discoverable. Qlik's power sits in set analysis, which is a real language to learn. |
+| Time to first working chart | 3 | 4 | Spotfire's property panel is more discoverable. Qlik's power sits in set analysis, which is a language in its own right. |
 | Expression language | 4 | 3 | Qlik set analysis is more capable once learned; Spotfire's OVER/aggregation syntax handles simpler cases with less ceremony. |
 | Defaults that fight you | 4 | 2 | Spotfire defaults to Sum aggregation and Year-binned dates, both wrong for monthly rate data and both silent. |
 | Sharing and export | 4 | 3 | Qlik is browser-native and shareable by link. Spotfire files live on the desktop unless published to a server. |

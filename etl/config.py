@@ -31,7 +31,8 @@ START_DATE = "1990-01-01"
 
 # National macro series. mart_column is the wide-mart column the series feeds;
 # transform derives *_yoy and *_z columns from these. cycle_lens tags which kind
-# of debt cycle a series speaks to (deflationary, inflationary, or both).
+# of debt cycle a series speaks to (deflationary, inflationary, or both), the
+# split Dalio uses in his work on big debt crises.
 # staleness_days overrides the per-frequency default for series with slow
 # release schedules.
 NATIONAL_SERIES = {

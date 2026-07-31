@@ -2,11 +2,9 @@
 
 US federal debt passed 120% of GDP, credit card delinquencies are climbing, and the yield curve spent most of two years inverted. I wanted a way to look at all of that together and ask a specific question every month: where are we in the debt cycle, and is stress building or easing?
 
-The framing I settled on splits debt cycles into two kinds. In a deflationary cycle the debt burden grows because prices and incomes fall while the debt stays fixed. In an inflationary one the currency absorbs the damage instead. Which kind you are in changes which indicators matter, so I tag every series with the cycle it speaks to. Individual charts on FRED did not give me that picture, because the interesting part is how indicators move relative to each other and relative to their own history. So I built a small warehouse that pulls the series, computes the comparisons I actually wanted (year-over-year changes, z-scores against a rolling 10-year window, a composite stress score), and refreshes itself every month.
+The framing comes from Ray Dalio's work on big debt crises, which splits them into two kinds. In a deflationary cycle the debt burden grows because prices and incomes fall while the debt stays fixed. In an inflationary one the currency absorbs the damage instead. Which kind you are in changes which indicators matter, so every series is tagged with the cycle it speaks to. Individual charts on FRED did not give me that picture, because the interesting part is how indicators move relative to each other and relative to their own history. So I built a small warehouse that pulls the series, computes the comparisons I actually wanted (year-over-year changes, z-scores against a rolling 10-year window, a composite stress score), and refreshes itself every month.
 
-Python pulls 70 series from the Federal Reserve's FRED API, a validation gate checks them before anything loads, and PostgreSQL holds a star schema with the derived indicators. The same three-page dashboard is built in both Qlik Sense and TIBCO Spotfire, because I wanted to learn both tools and building the same thing twice is the only honest way to compare them. A Claude model on Amazon Bedrock writes a one-page summary of what changed each month.
-
-Architecture inspired by the open-source [debt-cycles-tracker](https://github.com/SimSimButDifferent/debt-cycles-tracker); the warehouse modeling, validation gate, BI layer, and brief generation here are original work.
+Python pulls 70 series from the Federal Reserve's FRED API, a validation gate checks them before anything loads, and PostgreSQL holds a star schema with the derived indicators. The same three-page dashboard is built in both Qlik Sense and TIBCO Spotfire, on their free tiers, so the two platforms could be evaluated against identical requirements rather than against marketing material. A Claude model on Amazon Bedrock writes a one-page summary of what changed each month.
 
 ## What it says right now
 
@@ -77,7 +75,7 @@ FRED API (19 national + 51 state series)
    python -m etl.run_pipeline
    ```
    The pipeline halts on critical data-quality failures and always writes `reports/validation_report.md`. The Bedrock brief step is optional and skips cleanly without AWS credentials (`--skip-brief` to skip explicitly).
-4. **Build the dashboards** by connecting each tool to Postgres and following `docs/dashboard-spec.md`. Free trials:
+4. **Build the dashboards** by pointing each tool at the extracts in `data/exports/` and following `docs/dashboard-spec.md`. Both were built on free tiers; what those tiers do and do not cover is in [docs/comparison.md](docs/comparison.md). Trials:
    - Qlik Sense: https://www.qlik.com/us/trial
    - TIBCO Spotfire: https://www.spotfire.com/trial
 

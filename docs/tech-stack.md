@@ -7,8 +7,8 @@
 | Data source | FRED API | Free, authoritative US macro data with a stable JSON API |
 | Warehouse | PostgreSQL 16 | Star schema + marts; both BI tools connect natively |
 | Local infra | Docker Compose | One-command reproducible Postgres |
-| BI tool 1 | Qlik Sense (cloud trial) | Wanted to learn it; associative data model is unusual and worth understanding |
-| BI tool 2 | TIBCO Spotfire (cloud trial) | The obvious thing to compare Qlik against; stronger analytical charting |
+| BI tool 1 | Qlik Sense (free trial tier) | Associative engine handles the mart joins without explicit configuration |
+| BI tool 2 | TIBCO Spotfire (free trial tier) | Second implementation of the same spec, for a like-for-like platform comparison |
 | AI | Claude on Amazon Bedrock (`anthropic` SDK) | Writes the monthly summary from the warehouse numbers |
 | Automation | GitHub Actions | Monthly scheduled refresh with a containerized Postgres service |
 
