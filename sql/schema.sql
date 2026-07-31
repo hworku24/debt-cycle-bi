@@ -24,7 +24,7 @@ CREATE TABLE dim_series (
     frequency   TEXT NOT NULL,            -- D / W / M / Q (native)
     units       TEXT NOT NULL,
     geography   TEXT NOT NULL,            -- 'US' or two-letter state code
-    cycle_lens  TEXT NOT NULL             -- deflationary / inflationary / both (Dalio framing)
+    cycle_lens  TEXT NOT NULL             -- deflationary / inflationary / both
 );
 
 -- One row per series per native-frequency observation date.

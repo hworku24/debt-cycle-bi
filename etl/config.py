@@ -30,10 +30,10 @@ BRIEF_MODEL = os.getenv("BRIEF_MODEL", "us.anthropic.claude-sonnet-4-5-20250929-
 START_DATE = "1990-01-01"
 
 # National macro series. mart_column is the wide-mart column the series feeds;
-# transform derives *_yoy and *_z columns from these. cycle_lens follows the
-# deflationary/inflationary categorization from Dalio's debt-cycle framework
-# (see docs/upstream-review.md). staleness_days overrides the per-frequency
-# default for series with slow release schedules.
+# transform derives *_yoy and *_z columns from these. cycle_lens tags which kind
+# of debt cycle a series speaks to (deflationary, inflationary, or both).
+# staleness_days overrides the per-frequency default for series with slow
+# release schedules.
 NATIONAL_SERIES = {
     "HDTGPDUSQ163N": {"name": "Household debt to GDP",            "category": "debt",       "frequency": "Q", "units": "% of GDP",  "mart_column": "household_debt_gdp",   "cycle_lens": "deflationary"},
     "GFDEGDQ188S":   {"name": "Federal debt to GDP",              "category": "debt",       "frequency": "Q", "units": "% of GDP",  "mart_column": "federal_debt_gdp",     "cycle_lens": "both"},

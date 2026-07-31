@@ -2,7 +2,7 @@
 
 US federal debt passed 120% of GDP, credit card delinquencies are climbing, and the yield curve spent most of two years inverted. I wanted a way to look at all of that together and ask a specific question every month: where are we in the debt cycle, and is stress building or easing?
 
-Reading Ray Dalio's work on long-term and short-term debt cycles gave me the framework. Individual charts on FRED did not give me the picture, because the interesting part is how the indicators move relative to each other and relative to their own history. So I built a small warehouse that pulls the series, computes the comparisons I actually wanted (year-over-year changes, z-scores against a rolling 10-year window, a composite stress score), and refreshes itself every month.
+The framing I settled on splits debt cycles into two kinds. In a deflationary cycle the debt burden grows because prices and incomes fall while the debt stays fixed. In an inflationary one the currency absorbs the damage instead. Which kind you are in changes which indicators matter, so I tag every series with the cycle it speaks to. Individual charts on FRED did not give me that picture, because the interesting part is how indicators move relative to each other and relative to their own history. So I built a small warehouse that pulls the series, computes the comparisons I actually wanted (year-over-year changes, z-scores against a rolling 10-year window, a composite stress score), and refreshes itself every month.
 
 Python pulls 70 series from the Federal Reserve's FRED API, a validation gate checks them before anything loads, and PostgreSQL holds a star schema with the derived indicators. The same three-page dashboard is built in both Qlik Sense and TIBCO Spotfire, because I wanted to learn both tools and building the same thing twice is the only honest way to compare them. A Claude model on Amazon Bedrock writes a one-page summary of what changed each month.
 
@@ -101,7 +101,7 @@ Runs before anything touches the warehouse; failures are graded critical (pipeli
 | `mart_state_monthly` | one row per state per month (unemployment drill-down) |
 | `dim_series`, `dim_date` | conformed dimensions |
 
-Derived indicators are computed once in the warehouse so both BI tools show identical numbers. Each series in `dim_series` also carries a `cycle_lens` tag (deflationary, inflationary, or both), the categorization from Dalio's debt-cycle framework, so dashboards can group indicators by cycle type.
+Derived indicators are computed once in the warehouse so both BI tools show identical numbers. Each series in `dim_series` carries a `cycle_lens` tag (deflationary, inflationary, or both) so dashboards can group indicators by which kind of debt cycle they speak to.
 
 ## Monthly written summary
 

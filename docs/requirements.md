@@ -6,7 +6,7 @@ What I wanted this thing to answer, what I decided to leave out, and the questio
 
 The US is carrying federal debt above 120% of GDP, household debt service is creeping back up, and credit card delinquencies have been rising since 2022. Any one of those numbers is easy to find. What is hard to see is the shape of them together: whether current stress is unusual by historical standards, whether credit is tightening or loosening right now, and which parts of the country are diverging from the national picture.
 
-Dalio's framing of long-term and short-term debt cycles is the lens. The point is not to predict a recession. It is to have a defensible monthly answer to "is pressure building, and where."
+The lens is the split between deflationary and inflationary debt cycles: whether a debt burden gets heavier because prices and incomes are falling, or whether the currency absorbs the damage instead. The point is not to predict a recession. It is to have a defensible monthly answer to "is pressure building, and where."
 
 ## Questions each page has to answer
 

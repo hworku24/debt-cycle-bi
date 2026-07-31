@@ -1,10 +1,10 @@
 # Upstream Review: SimSimButDifferent/debt-cycles-tracker
 
-Reviewed 2026-07-28. The upstream project is a web dashboard for metrics from Ray Dalio's "Principles for Navigating Big Debt Crises": Next.js + React + TypeScript frontend, Chart.js visualizations, and FRED data cached in PostgreSQL through Prisma. This project takes its subject and its data-source idea, credits it in the README, and rebuilds it as a warehouse-plus-BI stack instead of a web app. Nothing is forked; no upstream code is vendored.
+Reviewed 2026-07-28. The upstream project is a web dashboard of debt-crisis indicators: Next.js + React + TypeScript frontend, Chart.js visualizations, and FRED data cached in PostgreSQL through Prisma. This project takes its subject and its data-source idea, credits it in the README, and rebuilds it as a warehouse-plus-BI stack instead of a web app. Nothing is forked; no upstream code is vendored.
 
 ## What I took from it
 
-1. **The Dalio framing.** Upstream categorizes metrics into deflationary-cycle, inflationary-cycle, and shared indicators. Adopted as a `cycle_lens` attribute on `dim_series` so dashboards can group indicators the same way (landed in Sprint 2).
+1. **The cycle categorization.** Upstream splits metrics into deflationary-cycle, inflationary-cycle, and shared indicators. Adopted as a `cycle_lens` attribute on `dim_series` so dashboards can group indicators the same way (landed in Sprint 2).
 2. **Market-price indicators I had skipped.** Upstream tracks asset prices alongside credit data. Added: real GDP growth, S&P 500, Case-Shiller home prices, 10-year Treasury yield, and the trade-weighted dollar index (landed in Sprint 2).
 3. **FRED plus Postgres as the backbone.** Same core idea, kept.
 
