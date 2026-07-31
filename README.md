@@ -6,7 +6,6 @@ Reading Ray Dalio's work on long-term and short-term debt cycles gave me the fra
 
 Python pulls 70 series from the Federal Reserve's FRED API, a validation gate checks them before anything loads, and PostgreSQL holds a star schema with the derived indicators. The same three-page dashboard is built in both Qlik Sense and TIBCO Spotfire, because I wanted to learn both tools and building the same thing twice is the only honest way to compare them. A Claude model on Amazon Bedrock writes a one-page summary of what changed each month.
 
-Architecture inspired by the open-source [debt-cycles-tracker](https://github.com/SimSimButDifferent/debt-cycles-tracker); the warehouse modeling, validation gate, BI layer, and brief generation here are original work.
 
 ## What it says right now
 
