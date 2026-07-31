@@ -1,40 +1,119 @@
 # Scope
 
-What I wanted this thing to answer, what I decided to leave out, and the questions each dashboard page has to satisfy. Written before the build so I had something to check the finished dashboards against.
+This document covers what the tracker is meant to answer, what it includes, and what I chose not to build.
 
-## What I am actually trying to see
+## Goal
 
-The US is carrying federal debt above 120% of GDP, household debt service is creeping back up, and credit card delinquencies have been rising since 2022. Any one of those numbers is easy to find. What is hard to see is the shape of them together: whether current stress is unusual by historical standards, whether credit is tightening or loosening right now, and which parts of the country are diverging from the national picture.
+The Debt Cycle BI Tracker brings federal debt, household credit, interest rates, inflation, market data, and unemployment into one monthly view.
 
-The lens is Dalio's split between deflationary and inflationary debt cycles: whether a debt burden gets heavier because prices and incomes are falling, or whether the currency absorbs the damage instead. The point is not to predict a recession. It is to have a defensible monthly answer to "is pressure building, and where."
+Most of these indicators are already available through FRED, but usually as separate charts. The goal here is to see how they are moving together and answer a few basic questions:
 
-## Questions each page has to answer
+* Is financial pressure building or easing?
+* Are current conditions unusual compared with recent history?
+* Which states are moving differently from the national trend?
 
-1. At a glance, how do current conditions compare to a year ago?
-2. Where are we in the long debt cycle relative to the last 35 years?
-3. Are credit conditions tightening or loosening right now?
-4. Which states are diverging from the national picture?
-5. What changed since last month, and what is worth watching next?
+The indicators are also tagged using Ray Dalio's distinction between deflationary and inflationary debt cycles. This is mainly used as an organizing framework for the dashboard.
 
-## What it does
+The tracker is meant to describe current conditions, not predict what happens next.
 
-- Pulls 70 FRED series (19 national debt-cycle and market indicators, 51 state unemployment series) from 1990 to present
-- Validates before loading: schema, duplicates, continuity, plausible ranges, staleness
-- Loads a PostgreSQL star schema with derived monthly marts (yoy changes, rolling z-scores, yield-inversion flag, composite cycle pressure score)
-- Feeds a three-page dashboard built identically in Qlik Sense and Spotfire
-- Generates a monthly one-page summary from the warehouse numbers using Claude on Bedrock
-- Refreshes itself monthly through GitHub Actions and commits the resulting reports
+## Questions the dashboard should answer
 
-## What it deliberately does not do
+1. How do current conditions compare with a year ago?
+2. How do the latest readings compare with their historical ranges?
+3. Are credit conditions tightening or easing?
+4. Which states differ most from the national unemployment rate?
+5. What changed in the latest update?
+6. Which indicators are worth watching next month?
 
-- **No forecasting.** It describes current and historical conditions. It does not predict recessions, and the composite score is an index, not a model.
-- **Monthly grain only.** Daily and weekly series are averaged into months, so intra-month moves are invisible.
-- **FRED only.** No commercial data feeds, so series availability and revisions follow whatever FRED publishes.
-- **No investment advice.** The monthly summary describes what moved. That is all it does.
-- **Dashboards live on trial accounts** and will expire, which is why the screenshots and the written comparison are in the repo.
+## What is included
 
-## Design rules I held myself to
+The project:
 
-- History back to 1990 so at least three full cycles are visible.
-- Derived indicators (yoy, z-scores, composite score) computed once in the warehouse, never in the BI tool, so both dashboards show identical numbers and the logic stays version-controlled.
-- The pipeline halts on critical data-quality failures rather than publishing bad numbers, and the validation report gets committed either way.
+* Pulls 70 FRED series, including 19 national indicators and 51 state unemployment series
+* Uses data from 1990 through the latest available release
+* Checks the data for missing fields, duplicate dates, gaps, unusual values, and stale series
+* Loads the results into PostgreSQL
+* Builds monthly national and state-level marts
+* Calculates year-over-year changes, rolling z-scores, yield-curve inversion flags, and a composite pressure score
+* Uses the same dashboard requirements for Qlik Sense and TIBCO Spotfire
+* Generates a monthly written brief using Claude through Amazon Bedrock
+* Refreshes the data and reports monthly through GitHub Actions
+
+## What is not included
+
+### Forecasting
+
+The tracker does not predict recessions, defaults, market returns, or future interest rates.
+
+The composite pressure score is a summary of current conditions. It is not a forecast or probability.
+
+### Daily analysis
+
+The dashboard works at a monthly level.
+
+Daily and weekly series are rolled up into monthly values, so short-term moves within a month are not shown.
+
+### Other data sources
+
+The project only uses data available through FRED.
+
+It does not include commercial feeds, private credit data, company financial statements, or alternative datasets. Release delays and historical revisions depend on what FRED publishes.
+
+### Investment advice
+
+The dashboard and monthly brief describe changes in the data. They do not provide trading, investment, or personal financial advice.
+
+### Permanent dashboard hosting
+
+The Qlik Sense and Spotfire dashboards were built using trial accounts.
+
+Screenshots, specifications, and implementation notes are included in the repository so the work is still documented after the trials expire.
+
+## Design rules
+
+### Historical coverage
+
+Where possible, each series starts in 1990.
+
+This gives enough history to compare current readings across different recessions, expansions, and interest-rate environments.
+
+### Shared calculations
+
+Derived metrics are calculated in the pipeline or warehouse instead of separately in each BI tool.
+
+These include:
+
+* Year-over-year changes
+* Rolling averages and standard deviations
+* Z-scores
+* Yield-curve inversion flags
+* Composite pressure scores
+
+Doing the calculations once keeps the Qlik and Spotfire dashboards consistent and makes the logic easier to review in code.
+
+### Data validation
+
+Critical validation failures stop the pipeline before the data is published.
+
+Warnings do not always stop the run, but they are included in the validation report.
+
+A report is written every time the pipeline runs, including failed runs.
+
+### Same dashboard requirements
+
+Both dashboard versions use the same:
+
+* Data extracts
+* Page structure
+* Indicators
+* Date ranges
+* Filters
+* KPI definitions
+* Comparison periods
+
+Some visuals may differ when one platform does not support the original design. Those changes are documented in the platform comparison.
+
+### Reproducibility
+
+The repository should contain everything needed to rerun the pipeline and understand how the dashboards were built.
+
