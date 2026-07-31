@@ -65,7 +65,6 @@ Runs the pipeline monthly and commits refreshed reports
 | Document | Description |
 | --- | --- |
 | [Requirements](docs/requirements.md) | Project scope, the questions each page answers, and exclusions |
-| [Tech stack](docs/tech-stack.md) | Technologies used and the reasoning behind each choice |
 | [Dashboard specification](docs/dashboard-spec.md) | Shared requirements for the Qlik and Spotfire versions |
 | [Platform comparison](docs/comparison.md) | Comparison of the two BI tools after building the dashboards |
 | [Build notes](docs/build-notes.md) | What I did in what order and what broke |
