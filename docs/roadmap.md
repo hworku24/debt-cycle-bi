@@ -83,9 +83,8 @@ Exit criteria met: no empty cells in comparison.md.
 
 - Replace HDTGPDUSQ163N. The validation gate flagged it 483 days stale on the first live run; the IMF-sourced household debt to GDP series has effectively stopped updating. Candidate replacement: BIS credit-to-households series (QUSPAM770A) or computing the ratio from Z.1 components.
 
-## Sprint 7: interview prep
+## Sprint 7: interview prep (done)
 
-- [ ] Swap AquaSense out for this project on the PwC resume variant
-- [ ] Write out the project story: the requirement, the pipeline, what validation caught, the two dashboards, the verdict
-- [ ] Practice a short demo path: README, validation report, dashboard screenshots, a brief
-- [ ] Be ready to defend the choices: why these four pressure components, why a 10 year z-score window, why compute in the warehouse instead of the BI tool
+- [x] Resume variant updated: this project replaces AquaSense, dashboards now stated as delivered
+- [x] Project story, demo path, expected questions, and honest limitations written up (kept outside this repo, in interview-prep/)
+- [x] Answers prepared for the four pressure components, the 10-year z window, and warehouse-vs-BI-tool computation
