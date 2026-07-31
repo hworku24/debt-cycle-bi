@@ -52,12 +52,10 @@ FRED API (19 national + 51 state series)
 
 | Document | Contents |
 |---|---|
-| [Scope](docs/requirements.md) | What the tracker answers, what it deliberately does not, and the questions each dashboard page has to satisfy |
-| [Wireframes](docs/wireframes/README.md) | Digital wireframes for the three dashboard pages |
-| [User flow](docs/user-flow.md) | How the monthly read and the maintenance loop actually run |
-| [Tech stack](docs/tech-stack.md) | Tools, languages, libraries, and the reasoning behind each |
-| [File structure](docs/file-structure.md) | Repository layout and conventions |
+| [Scope](docs/requirements.md) | What the tracker answers, what it deliberately does not |
 | [Dashboard spec](docs/dashboard-spec.md) | The page-by-page spec both BI tools implement |
+| [Platform comparison](docs/comparison.md) | Qlik vs Spotfire, scored, with the free-tier caveats |
+| [Build notes](docs/build-notes.md) | What I did in what order and what broke |
 
 ## Quickstart
 
@@ -74,6 +72,7 @@ FRED API (19 national + 51 state series)
    pip install -r requirements.txt
    python -m etl.run_pipeline
    ```
+   Tests: `pip install -r requirements-dev.txt && pytest`
    The pipeline halts on critical data-quality failures and always writes `reports/validation_report.md`. The Bedrock brief step is optional and skips cleanly without AWS credentials (`--skip-brief` to skip explicitly).
 4. **Build the dashboards** by pointing each tool at the extracts in `data/exports/` and following `docs/dashboard-spec.md`. Both were built on free tiers; what those tiers do and do not cover is in [docs/comparison.md](docs/comparison.md). Trials:
    - Qlik Sense: https://www.qlik.com/us/trial

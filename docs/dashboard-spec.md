@@ -1,8 +1,8 @@
 # Dashboard Specification
 
-Both tools (Qlik Sense, TIBCO Spotfire) implement this spec identically, reading the same Postgres marts. Deviations forced by a tool's limitations are recorded in comparison.md.
+Both tools implement this spec identically against the same marts. Deviations forced by a tool's limitations are recorded in comparison.md.
 
-**Data sources:** `mart_debt_cycle_monthly` (one row per month), `mart_state_monthly` (one row per state per month), `dim_date` for calendar filtering.
+**Data sources:** `mart_debt_cycle_monthly` (one row per month), `mart_state_monthly` (one row per state per month).
 
 ## Page 1: Current Conditions
 
