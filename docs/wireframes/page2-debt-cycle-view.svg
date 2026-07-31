@@ -23,7 +23,7 @@
   <g stroke="#aaa" fill="none" stroke-dasharray="4 3">
     <polyline points="45,250 120,246 200,238 280,225 360,215 440,200 520,175 600,150 680,135 755,128"/>
   </g>
-  <text x="640" y="120" class="small">— household   ---- federal</text>
+  <text x="640" y="120" class="small">solid: household   dashed: federal</text>
 
   <!-- Secondary chart -->
   <rect x="30" y="290" width="740" height="120" class="box"/>

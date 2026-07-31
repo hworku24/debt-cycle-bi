@@ -4,7 +4,7 @@ Planned layout, written before implementation and kept current.
 
 ```
 debt-cycle-bi-tracker/
-├── README.md                    # Overview, JD mapping, quickstart
+├── README.md                    # Overview, architecture, quickstart
 ├── requirements.txt             # Python dependencies
 ├── docker-compose.yml           # Local Postgres 16
 ├── .env.example                 # Config template (DB, FRED key, AWS)
@@ -19,15 +19,15 @@ debt-cycle-bi-tracker/
 │   ├── validate.py              # Data-quality gate -> reports/validation_report.md
 │   ├── transform.py             # Frames -> dims, facts, monthly marts
 │   ├── load.py                  # Bulk load + post-load reconciliation
-│   ├── brief.py                 # Claude on Bedrock -> reports/briefs/YYYY-MM.md
+│   ├── brief.py                 # Bedrock summary writer
 │   └── run_pipeline.py          # Orchestrator (extract -> validate -> transform -> load -> brief)
 ├── data/
 │   └── raw/fred/                # Raw API payloads (gitignored)
 ├── reports/
 │   ├── validation_report.md     # Committed by the monthly workflow
-│   └── briefs/                  # Monthly executive briefs
+│   └── briefs/                  # Monthly written summaries
 └── docs/
-    ├── requirements.md          # Goals, features, limits, stakeholder requirements
+    ├── requirements.md          # What it answers, what it leaves out
     ├── tech-stack.md            # Tools, languages, libraries and why
     ├── file-structure.md        # This file
     ├── user-flow.md             # Executive + analyst flow charts

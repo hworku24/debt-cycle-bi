@@ -4,7 +4,7 @@ Both tools (Qlik Sense, TIBCO Spotfire) implement this spec identically, reading
 
 **Data sources:** `mart_debt_cycle_monthly` (one row per month), `mart_state_monthly` (one row per state per month), `dim_date` for calendar filtering.
 
-## Page 1: Current Conditions (executive KPI view)
+## Page 1: Current Conditions
 
 KPI tiles, latest month vs 12 months ago:
 - Cycle pressure score (with trend arrow)

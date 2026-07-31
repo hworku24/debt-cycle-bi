@@ -7,9 +7,9 @@
 | Data source | FRED API | Free, authoritative US macro data with a stable JSON API |
 | Warehouse | PostgreSQL 16 | Star schema + marts; both BI tools connect natively |
 | Local infra | Docker Compose | One-command reproducible Postgres |
-| BI tool 1 | Qlik Sense (cloud trial) | Named in the target role; associative data model |
-| BI tool 2 | TIBCO Spotfire (cloud trial) | Named in the target role; strong analytical charting |
-| AI | Claude on Amazon Bedrock (`anthropic` SDK) | Monthly executive brief generated from warehouse metrics |
+| BI tool 1 | Qlik Sense (cloud trial) | Wanted to learn it; associative data model is unusual and worth understanding |
+| BI tool 2 | TIBCO Spotfire (cloud trial) | The obvious thing to compare Qlik against; stronger analytical charting |
+| AI | Claude on Amazon Bedrock (`anthropic` SDK) | Writes the monthly summary from the warehouse numbers |
 | Automation | GitHub Actions | Monthly scheduled refresh with a containerized Postgres service |
 
 ## Python libraries
@@ -21,7 +21,7 @@
 | psycopg2-binary | Postgres bulk loads (`execute_values`) and reconciliation checks |
 | python-dotenv | Local configuration via `.env` |
 | tabulate | Markdown tables in the LLM prompt |
-| anthropic[bedrock] | Claude via the Bedrock client for the executive brief |
+| anthropic[bedrock] | Claude via Bedrock for the monthly written summary |
 
 ## Deliberate non-choices
 

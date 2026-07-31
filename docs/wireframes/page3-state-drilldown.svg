@@ -37,7 +37,7 @@
   <g stroke="#aaa" fill="none" stroke-dasharray="4 3">
     <polyline points="495,300 540,290 585,295 630,275 675,280 720,260 758,265"/>
   </g>
-  <text x="590" y="130" class="small">— selected state   ---- national</text>
+  <text x="590" y="130" class="small">solid: selected state   dashed: national</text>
 
   <!-- Table -->
   <rect x="30" y="360" width="740" height="135" class="box"/>

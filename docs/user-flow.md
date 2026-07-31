@@ -1,26 +1,26 @@
 # User Flow
 
-Two user types interact with the project: the **executive** (consumes dashboards and the monthly brief) and the **analyst/maintainer** (runs and extends the pipeline). GitHub renders the charts below natively.
+Two ways I actually use this: the monthly read (open the dashboard, see what moved) and the maintenance loop (run the pipeline, fix what broke). GitHub renders the diagrams below natively.
 
-## Executive flow
+## Monthly read
 
 ```mermaid
 flowchart TD
-    A[Monthly refresh email or repo notification] --> B[Open dashboard]
+    A[Monthly refresh lands in the repo] --> B[Open dashboard]
     B --> C[Page 1: Current Conditions KPIs]
     C --> D{Anything moved?}
-    D -- No --> E[Skim monthly brief, done]
+    D -- No --> E[Skim the summary, done]
     D -- Yes --> F[Page 2: Debt Cycle View]
     F --> G[Check which component z-scores drove the pressure score]
     G --> H{Regional angle?}
     H -- Yes --> I[Page 3: State Drill-Down]
     I --> J[Select state, compare vs national]
-    H -- No --> K[Read monthly brief for narrative]
+    H -- No --> K[Read the monthly summary]
     J --> K
-    K --> L[Share brief with team / decide what to watch next month]
+    K --> L[Note what to watch next month]
 ```
 
-## Analyst / maintainer flow
+## Maintenance loop
 
 ```mermaid
 flowchart TD

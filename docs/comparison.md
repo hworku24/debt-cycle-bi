@@ -56,10 +56,10 @@ Scores are 1 to 5 from building the identical three-page dashboard in both tools
 
 ## Verdict
 
-- **Best for executive dashboards:** Qlik. Browser-native, shareable by link, and the associative model means a business user clicking around does not break anything.
-- **Best for exploratory analysis:** Spotfire. Individual scales, faster property panel, and better handling of measures that live on different magnitudes.
-- **Best for a Postgres warehouse stack:** Qlik, mainly because the whole app can be built and rebuilt programmatically. A dashboard defined in code is a dashboard that can be version-controlled and recreated.
-- **What I would tell a client choosing between them:** if the deliverable is a governed dashboard that many people consume and that a team needs to rebuild reliably, Qlik. If the deliverable is an analyst workbench for interrogating data with awkward scales, Spotfire. The deciding question is not which renders prettier charts, it is whether the dashboards need to be reproducible artifacts or exploratory workspaces.
+- **Better for a dashboard other people read:** Qlik. Browser-native, shareable by link, and clicking around does not break anything.
+- **Better for poking at the data:** Spotfire. Individual scales, faster property panel, and better handling of measures that live on different magnitudes.
+- **Better on top of a Postgres warehouse:** Qlik, mainly because the whole app can be built and rebuilt programmatically. A dashboard defined in code can be version-controlled and recreated.
+- **Which I would pick again:** Qlik, for this project. Being able to rebuild the whole app from a script matters more to me than any single charting feature, because the dashboard has to survive a trial expiring and me forgetting how I built it. If the work were open-ended digging rather than a fixed monthly read, I would pick Spotfire.
 
 ## What I would do differently
 

@@ -1,8 +1,29 @@
 # Debt Cycle BI Tracker
 
-A self-refreshing business intelligence pipeline for US debt-cycle and recession-risk analysis. Python ETL ingests 70 national and state-level series from the FRED API, runs an automated data-quality gate, warehouses them in a PostgreSQL star schema, and feeds identical executive dashboards in **Qlik Sense** and **TIBCO Spotfire**. A Claude model on **Amazon Bedrock** turns each month's warehouse metrics into a one-page executive brief, and GitHub Actions refreshes everything monthly.
+US federal debt passed 120% of GDP, credit card delinquencies are climbing, and the yield curve spent most of two years inverted. I wanted a way to look at all of that together and ask a specific question every month: where are we in the debt cycle, and is stress building or easing?
+
+Reading Ray Dalio's work on long-term and short-term debt cycles gave me the framework. Individual charts on FRED did not give me the picture, because the interesting part is how the indicators move relative to each other and relative to their own history. So I built a small warehouse that pulls the series, computes the comparisons I actually wanted (year-over-year changes, z-scores against a rolling 10-year window, a composite stress score), and refreshes itself every month.
+
+Python pulls 70 series from the Federal Reserve's FRED API, a validation gate checks them before anything loads, and PostgreSQL holds a star schema with the derived indicators. The same three-page dashboard is built in both Qlik Sense and TIBCO Spotfire, because I wanted to learn both tools and building the same thing twice is the only honest way to compare them. A Claude model on Amazon Bedrock writes a one-page summary of what changed each month.
 
 Architecture inspired by the open-source [debt-cycles-tracker](https://github.com/SimSimButDifferent/debt-cycles-tracker); the warehouse modeling, validation gate, BI layer, and brief generation here are original work.
+
+## What it says right now
+
+Last full read, June 2026 (the quarterly series lag by a quarter, which is why some readings are dated January):
+
+| Indicator | Latest | Read |
+|---|---|---|
+| Composite pressure score | 0.67 | Stress about two thirds of a standard deviation above the last decade |
+| Federal debt to GDP | 122.6% (Jan) | Elevated and still climbing |
+| Household debt service ratio | 11.2% (Jan) | Near its long-run average, not a crisis level |
+| Credit card delinquency | 2.9% (Jan) | Roughly one standard deviation above normal, up sharply from the 2021 low |
+| Fed funds | 3.63% | Easing, well down from the 2023 peak |
+| 10y minus 2y spread | +0.36pp | Positive again after the long inversion |
+| CPI year over year | 3.23% (Jul) | Still above target |
+| Unemployment | 4.2% | Low nationally, but states run from 2.0% to 6.0% |
+
+The short version: household balance sheets are showing strain in delinquencies while rates and the curve have been normalizing. Sovereign debt is the piece that keeps trending the wrong way regardless of where the cycle is.
 
 ## Architecture
 
@@ -10,47 +31,35 @@ Architecture inspired by the open-source [debt-cycles-tracker](https://github.co
 FRED API (19 national + 51 state series)
         |
         v
-  etl/extract.py ── raw JSON ──► data/raw/fred/
+  etl/extract.py -- raw JSON --> data/raw/fred/
         |
         v
-  etl/validate.py ── data-quality gate ──► reports/validation_report.md
+  etl/validate.py -- data-quality gate --> reports/validation_report.md
         |     (schema, duplicates, continuity, ranges, staleness)
         v
-  etl/transform.py ── star schema + derived indicators
+  etl/transform.py -- star schema + derived indicators
         |     (yoy changes, 10-yr z-scores, yield inversion, cycle pressure score)
         v
-  etl/load.py ──► PostgreSQL ──► post-load reconciliation checks
+  etl/load.py --> PostgreSQL --> post-load reconciliation checks
         |                |
-        |                ├──► Qlik Sense dashboard      (docs/dashboard-spec.md)
-        |                └──► TIBCO Spotfire dashboard  (identical spec)
+        |                +--> Qlik Sense dashboard      (docs/dashboard-spec.md)
+        |                +--> TIBCO Spotfire dashboard  (identical spec)
         v
-  etl/brief.py ── Claude on Bedrock ──► reports/briefs/YYYY-MM.md
+  etl/brief.py -- Claude on Bedrock --> reports/briefs/YYYY-MM.md
         |
-  GitHub Actions ── monthly cron ── commits refreshed report + brief
+  GitHub Actions -- monthly cron -- commits refreshed report + brief
 ```
 
-## Planning and design
+## Docs
 
 | Document | Contents |
 |---|---|
-| [Requirements](docs/requirements.md) | Goals, features, limits, and stakeholder requirements the build is tested against |
+| [Scope](docs/requirements.md) | What the tracker answers, what it deliberately does not, and the questions each dashboard page has to satisfy |
 | [Wireframes](docs/wireframes/README.md) | Digital wireframes for the three dashboard pages |
-| [User flow](docs/user-flow.md) | Executive and analyst flow charts |
+| [User flow](docs/user-flow.md) | How the monthly read and the maintenance loop actually run |
 | [Tech stack](docs/tech-stack.md) | Tools, languages, libraries, and the reasoning behind each |
 | [File structure](docs/file-structure.md) | Repository layout and conventions |
 | [Dashboard spec](docs/dashboard-spec.md) | The page-by-page spec both BI tools implement |
-
-## How this maps to the BI Engineer role
-
-| Responsibility | Where it lives in this repo |
-|---|---|
-| Building and managing data pipelines to validate data quality and integrity | `etl/` pipeline with a hard validation gate and post-load reconciliation |
-| Supporting data architecture and database management systems | Star schema + derived marts in `sql/schema.sql` |
-| Data visualization and reporting with BI tools | Qlik Sense and Spotfire dashboards built to one spec |
-| Macroeconomic and microeconomic analysis to inform market development strategies | National debt-cycle indicators + state-level drill-down |
-| Stakeholder collaboration to gather requirements | `docs/requirements.md`, a client-style requirements doc the dashboards are built against |
-| Data analysis and interpretation to support strategic planning | Derived cycle indicators + the monthly LLM executive brief |
-| Continuous process improvement | Scheduled refresh with committed validation reports as an audit trail |
 
 ## Quickstart
 
@@ -94,9 +103,9 @@ Runs before anything touches the warehouse; failures are graded critical (pipeli
 
 Derived indicators are computed once in the warehouse so both BI tools show identical numbers. Each series in `dim_series` also carries a `cycle_lens` tag (deflationary, inflationary, or both), the categorization from Dalio's debt-cycle framework, so dashboards can group indicators by cycle type.
 
-## Monthly executive brief
+## Monthly written summary
 
-`etl/brief.py` sends the last 13 months of mart indicators plus state extremes to Claude on Amazon Bedrock and commits a one-page memo (What Changed, Cycle Position, Regional Notes, What To Watch) to `reports/briefs/`. The pipeline visualizes the data and also writes the first draft of the client memo.
+`etl/brief.py` sends the last 13 months of mart indicators plus state extremes to Claude on Amazon Bedrock and commits a one-page memo (What Changed, Cycle Position, Regional Notes, What To Watch) to `reports/briefs/`. It saves me writing the same monthly summary by hand, and it forces the numbers to be stated in plain language rather than left as charts.
 
 ## Scheduled refresh
 

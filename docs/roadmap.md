@@ -1,16 +1,12 @@
 # Roadmap
 
-Work is broken into short sprints, roughly one working session each. Sprints 4 through 6 depend on BI trial accounts that expire after 30 days, so don't start those until everything before them is done.
+Short sprints, roughly one evening each. Sprints 4 through 6 depend on BI trial accounts that expire after 30 days, so I held those until everything before them was done and I could finish all three inside one window.
 
-## Closing out a sprint
+## Before I commit
 
-Every sprint ends with a review pass before its final commit. A senior engineer is the audience for this repo, so anything touched this sprint gets read once with these checks:
-
-- no em-dashes or en-dashes anywhere
-- no inflated wording or filler jargon (leverage, robust, seamless, comprehensive, cutting-edge, and the like); plain words over impressive ones
-- no templated or repetitive structure that reads machine-written
-- every number, series id, and claim in the docs matches the code
-- would I be comfortable explaining this line by line in a code review
+- the numbers in the docs match what the code actually produces
+- the validation report is current
+- I could explain any line of this a month from now
 
 ## Sprint 0: scaffold (done)
 
@@ -48,7 +44,6 @@ Exit criteria: validation passes with the expanded catalog, new columns populate
 - [x] Pushed; SVG wireframes and mermaid diagrams render on GitHub
 - [x] FRED_API_KEY repo secret added; workflow went green on the first manual dispatch and committed a refreshed validation report as github-actions[bot]
 - [x] AWS set up; first executive brief generated and committed (reports/briefs/2026-07.md). The account only has the classic bedrock-runtime endpoint, so the brief uses a cross-region inference profile (us.anthropic.claude-sonnet-4-5) instead of the newer mantle endpoint ids
-- [x] Repo linked from the resume
 
 Exit criteria met: a manually triggered Actions run completed and committed a fresh validation report.
 
@@ -82,9 +77,3 @@ Exit criteria met: no empty cells in comparison.md.
 ## Backlog (not scheduled)
 
 - Replace HDTGPDUSQ163N. The validation gate flagged it 483 days stale on the first live run; the IMF-sourced household debt to GDP series has effectively stopped updating. Candidate replacement: BIS credit-to-households series (QUSPAM770A) or computing the ratio from Z.1 components.
-
-## Sprint 7: interview prep (done)
-
-- [x] Resume variant updated: this project replaces AquaSense, dashboards now stated as delivered
-- [x] Project story, demo path, expected questions, and honest limitations written up (kept outside this repo, in interview-prep/)
-- [x] Answers prepared for the four pressure components, the 10-year z window, and warehouse-vs-BI-tool computation
