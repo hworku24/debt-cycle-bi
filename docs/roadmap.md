@@ -62,22 +62,22 @@ Trial clock started 2026-07-30 (Qlik Cloud Analytics, 30 days).
 - [x] Observations captured in comparison.md while fresh
 - [x] Screenshots into docs/screenshots/, prefixed qlik-, cropped to the canvas
 
-## Sprint 5: Spotfire dashboard
+## Sprint 5: Spotfire dashboard (done)
 
 Same three pages, same spec.
 
-- [ ] Start the Spotfire trial
-- [ ] Build pages 1 to 3
-- [ ] Screenshots prefixed spotfire-
-- [ ] More comparison.md notes
+- [x] Trial turned out to be Windows-only desktop software. No Windows machine here, so the build ran on a Windows Server 2022 instance on EC2 (m7i-flex.large, on free credits) over RDP
+- [x] Built pages 1 to 3: eight KPI tiles with sparklines, two multi-measure time series, state bar chart with table and trend
+- [x] Screenshots prefixed spotfire-, cropped
+- [x] Build notes in comparison.md, including the Sum-by-default and Year-binning traps and the individual-scales win
 
-## Sprint 6: comparison writeup
+## Sprint 6: comparison writeup (done)
 
-- [ ] Fill in every table in comparison.md and write the verdict
-- [ ] Put the best screenshots in the README
-- [ ] Full read-through of the repo with fresh eyes, fix anything that doesn't explain itself
+- [x] Every table in comparison.md scored, with the verdict and a "what I would do differently" section
+- [x] All six screenshots in the README
+- [x] Read-through pass
 
-Exit criteria: no empty cells in comparison.md.
+Exit criteria met: no empty cells in comparison.md.
 
 ## Backlog (not scheduled)
 

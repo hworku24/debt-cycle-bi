@@ -102,6 +102,22 @@ Derived indicators are computed once in the warehouse so both BI tools show iden
 
 `.github/workflows/monthly-refresh.yml` runs the full pipeline on the 5th of each month against a containerized Postgres, then commits the refreshed validation report and brief. Repo secrets required: `FRED_API_KEY`, plus optional `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` / `AWS_REGION` for the brief.
 
+## Dashboards
+
+The same three-page spec built twice. Findings from building it in both tools are in [docs/comparison.md](docs/comparison.md).
+
+**Qlik Sense**
+
+![Qlik current conditions](docs/screenshots/qlik-current-conditions.png)
+![Qlik debt cycle view](docs/screenshots/qlik-debt-cycle-view.png)
+![Qlik state drill-down](docs/screenshots/qlik-state-drilldown.png)
+
+**TIBCO Spotfire**
+
+![Spotfire current conditions](docs/screenshots/spotfire-current-conditions.png)
+![Spotfire debt cycle view](docs/screenshots/spotfire-debt-cycle-view.png)
+![Spotfire state drill-down](docs/screenshots/spotfire-state-drilldown.png)
+
 ## Platform comparison
 
-Findings from building the same dashboard in both tools go in [docs/comparison.md](docs/comparison.md); screenshots in `docs/screenshots/` since trial accounts expire and the repo is the durable artifact.
+Scored tables and the verdict are in [docs/comparison.md](docs/comparison.md). Short version: Qlik for governed, reproducible dashboards (the entire app was built through its Engine and REST APIs); Spotfire for exploratory analysis (individual scales per measure made a five-measure chart readable that Qlik flattened).
