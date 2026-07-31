@@ -60,6 +60,12 @@ GitHub Actions
 Runs the pipeline monthly and commits refreshed reports
 ```
 
+### What I left out on purpose
+
+- **No orchestrator.** A single monthly DAG does not justify running Airflow or Dagster. GitHub Actions cron does the same job with one fewer system to keep alive.
+- **No dbt.** The transform layer is small enough to keep in pandas plus one schema file. If the mart count grew past a handful, dbt would be the right move.
+- **No custom frontend.** The BI tools are the presentation layer, which is the whole point of building the same dashboard twice.
+
 ## Documentation
 
 | Document | Description |
