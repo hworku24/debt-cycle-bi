@@ -1,130 +1,263 @@
 # Debt Cycle BI Tracker
 
-US federal debt passed 120% of GDP, credit card delinquencies are climbing, and the yield curve spent most of two years inverted. I wanted a way to look at all of that together and ask a specific question every month: where are we in the debt cycle, and is stress building or easing?
+The Debt Cycle BI Tracker is a monthly data pipeline and dashboard project for monitoring federal debt, household credit conditions, interest rates, inflation, and labor market indicators in one place.
 
-The framing comes from Ray Dalio's work on big debt crises, which splits them into two kinds. In a deflationary cycle the debt burden grows because prices and incomes fall while the debt stays fixed. In an inflationary one the currency absorbs the damage instead. Which kind you are in changes which indicators matter, so every series is tagged with the cycle it speaks to. Individual charts on FRED did not give me that picture, because the interesting part is how indicators move relative to each other and relative to their own history. So I built a small warehouse that pulls the series, computes the comparisons I actually wanted (year-over-year changes, z-scores against a rolling 10-year window, a composite stress score), and refreshes itself every month.
+The project uses Ray Dalio's debt-cycle framework to group indicators into deflationary, inflationary, or mixed-cycle categories. This makes it easier to compare related economic signals and evaluate whether financial pressure is increasing or easing.
 
-Python pulls 70 series from the Federal Reserve's FRED API, a validation gate checks them before anything loads, and PostgreSQL holds a star schema with the derived indicators. The same three-page dashboard is built in both Qlik Sense and TIBCO Spotfire, on their free tiers, so the two platforms could be evaluated against identical requirements rather than against marketing material. A Claude model on Amazon Bedrock writes a one-page summary of what changed each month.
+Python retrieves 70 economic series from the Federal Reserve's FRED API. The pipeline validates the data, loads it into a PostgreSQL star schema, and calculates year-over-year changes, rolling 10-year z-scores, yield-curve inversion flags, and a composite pressure score.
 
-## What it says right now
+The same three-page dashboard was built in Qlik Sense and TIBCO Spotfire using identical data and reporting requirements. This allowed the platforms to be compared based on implementation, visualization, automation, and usability. An optional Amazon Bedrock step generates a one-page monthly summary of the latest changes.
 
-Last full read, June 2026 (the quarterly series lag by a quarter, which is why some readings are dated January):
+## Current reading
 
-| Indicator | Latest | Read |
-|---|---|---|
-| Composite pressure score | 0.67 | Stress about two thirds of a standard deviation above the last decade |
-| Federal debt to GDP | 122.6% (Jan) | Elevated and still climbing |
-| Household debt service ratio | 11.2% (Jan) | Near its long-run average, not a crisis level |
-| Credit card delinquency | 2.9% (Jan) | Roughly one standard deviation above normal, up sharply from the 2021 low |
-| Fed funds | 3.63% | Easing, well down from the 2023 peak |
-| 10y minus 2y spread | +0.36pp | Positive again after the long inversion |
-| CPI year over year | 3.23% (Jul) | Still above target |
-| Unemployment | 4.2% | Low nationally, but states run from 2.0% to 6.0% |
+The latest complete pipeline run uses data available through June and July 2026. Some quarterly indicators are released later than the monthly series, so their latest observations are from January.
 
-The short version: household balance sheets are showing strain in delinquencies while rates and the curve have been normalizing. Sovereign debt is the piece that keeps trending the wrong way regardless of where the cycle is.
+| Indicator                    |       Latest | Interpretation                                         |
+| ---------------------------- | -----------: | ------------------------------------------------------ |
+| Composite pressure score     |         0.67 | Overall stress is moderately above its 10-year average |
+| Federal debt to GDP          | 122.6% (Jan) | High and continuing to rise                            |
+| Household debt service ratio |  11.2% (Jan) | Close to its long-run average                          |
+| Credit card delinquency      |   2.9% (Jan) | Above normal and well above its 2021 low               |
+| Federal funds rate           |        3.63% | Falling from the 2023 peak                             |
+| 10-year minus 2-year spread  |     +0.36 pp | Positive again after an extended inversion             |
+| CPI, year over year          |  3.23% (Jul) | Still above the Federal Reserve's target               |
+| Unemployment rate            |         4.2% | Low nationally, with a wide range across states        |
+
+The latest reading shows greater household stress through rising credit card delinquencies, while interest rates and the yield curve have been moving toward more typical levels. Federal debt continues to rise regardless of the shorter-term changes in the economic cycle.
 
 ## Architecture
 
-```
-FRED API (19 national + 51 state series)
+```text
+FRED API
+19 national series + 51 state unemployment series
         |
         v
-  etl/extract.py -- raw JSON --> data/raw/fred/
+etl/extract.py
+Downloads raw JSON to data/raw/fred/
         |
         v
-  etl/validate.py -- data-quality gate --> reports/validation_report.md
-        |     (schema, duplicates, continuity, ranges, staleness)
-        v
-  etl/transform.py -- star schema + derived indicators
-        |     (yoy changes, 10-yr z-scores, yield inversion, cycle pressure score)
-        v
-  etl/load.py --> PostgreSQL --> post-load reconciliation checks
-        |                |
-        |                +--> Qlik Sense dashboard      (docs/dashboard-spec.md)
-        |                +--> TIBCO Spotfire dashboard  (identical spec)
-        v
-  etl/brief.py -- Claude on Bedrock --> reports/briefs/YYYY-MM.md
+etl/validate.py
+Runs schema, duplicate, continuity, range, and staleness checks
         |
-  GitHub Actions -- monthly cron -- commits refreshed report + brief
+        v
+etl/transform.py
+Builds the star schema and calculates derived indicators
+        |
+        v
+etl/load.py
+Loads PostgreSQL and runs reconciliation checks
+        |
+        +--> Qlik Sense
+        |
+        +--> TIBCO Spotfire
+        |
+        v
+etl/brief.py
+Generates an optional monthly summary with Claude on Amazon Bedrock
+        |
+        v
+GitHub Actions
+Runs the pipeline monthly and commits refreshed reports
 ```
 
-## Docs
+## Documentation
 
-| Document | Contents |
-|---|---|
-| [Scope](docs/requirements.md) | What the tracker answers, what it deliberately does not, and the questions each dashboard page has to satisfy |
-| [Wireframes](docs/wireframes/README.md) | Digital wireframes for the three dashboard pages |
-| [User flow](docs/user-flow.md) | How the monthly read and the maintenance loop actually run |
-| [Tech stack](docs/tech-stack.md) | Tools, languages, libraries, and the reasoning behind each |
-| [File structure](docs/file-structure.md) | Repository layout and conventions |
-| [Dashboard spec](docs/dashboard-spec.md) | The page-by-page spec both BI tools implement |
+| Document                                          | Description                                                  |
+| ------------------------------------------------- | ------------------------------------------------------------ |
+| [Requirements](docs/requirements.md)              | Project scope, dashboard questions, and exclusions           |
+| [Wireframes](docs/wireframes/README.md)           | Initial layouts for the three dashboard pages                |
+| [User flow](docs/user-flow.md)                    | Monthly analysis and maintenance workflows                   |
+| [Tech stack](docs/tech-stack.md)                  | Technologies used and the reasoning behind each choice       |
+| [File structure](docs/file-structure.md)          | Repository organization and naming conventions               |
+| [Dashboard specification](docs/dashboard-spec.md) | Shared requirements for the Qlik and Spotfire versions       |
+| [Platform comparison](docs/comparison.md)         | Comparison of the two BI tools after building the dashboards |
 
 ## Quickstart
 
-1. **Configure**
-   ```
-   cp .env.example .env    # add your FRED API key (free) and DB password
-   ```
-2. **Start PostgreSQL**
-   ```
-   docker compose up -d
-   ```
-3. **Install and run**
-   ```
-   pip install -r requirements.txt
-   python -m etl.run_pipeline
-   ```
-   The pipeline halts on critical data-quality failures and always writes `reports/validation_report.md`. The Bedrock brief step is optional and skips cleanly without AWS credentials (`--skip-brief` to skip explicitly).
-4. **Build the dashboards** by pointing each tool at the extracts in `data/exports/` and following `docs/dashboard-spec.md`. Both were built on free tiers; what those tiers do and do not cover is in [docs/comparison.md](docs/comparison.md). Trials:
-   - Qlik Sense: https://www.qlik.com/us/trial
-   - TIBCO Spotfire: https://www.spotfire.com/trial
+### 1. Configure the environment
 
-## Data-quality gate
+```bash
+cp .env.example .env
+```
 
-Runs before anything touches the warehouse; failures are graded critical (pipeline stops) or warning (logged):
+Add your FRED API key and PostgreSQL credentials to `.env`.
 
-- **Schema enforcement**: every FRED payload has parseable dates and values
-- **Key integrity**: no duplicate observation dates per series
-- **Continuity**: no missing months mid-series for monthly data
-- **Range checks**: values inside plausible bounds per indicator category
-- **Staleness detection**: each series updated within its expected release lag
-- **Post-load reconciliation**: warehouse row counts match transformed frames, no orphaned foreign keys
+### 2. Start PostgreSQL
 
-## Warehouse
+```bash
+docker compose up -d
+```
 
-| Table | Grain |
-|---|---|
-| `fact_observations` | one row per series per native-frequency observation |
-| `mart_debt_cycle_monthly` | one row per month, wide: all national indicators + derived yoy, z-scores, yield-inversion flag, composite cycle pressure score |
-| `mart_state_monthly` | one row per state per month (unemployment drill-down) |
-| `dim_series`, `dim_date` | conformed dimensions |
+### 3. Install the dependencies
 
-Derived indicators are computed once in the warehouse so both BI tools show identical numbers. Each series in `dim_series` carries a `cycle_lens` tag (deflationary, inflationary, or both) so dashboards can group indicators by which kind of debt cycle they speak to.
+```bash
+pip install -r requirements.txt
+```
 
-## Monthly written summary
+### 4. Run the pipeline
 
-`etl/brief.py` sends the last 13 months of mart indicators plus state extremes to Claude on Amazon Bedrock and commits a one-page memo (What Changed, Cycle Position, Regional Notes, What To Watch) to `reports/briefs/`. It saves me writing the same monthly summary by hand, and it forces the numbers to be stated in plain language rather than left as charts.
+```bash
+python -m etl.run_pipeline
+```
+
+The pipeline stops when a critical validation check fails. It always writes a validation report to:
+
+```text
+reports/validation_report.md
+```
+
+The Bedrock summary is optional. The pipeline skips it when AWS credentials are unavailable, or it can be disabled manually:
+
+```bash
+python -m etl.run_pipeline --skip-brief
+```
+
+### 5. Connect a dashboard
+
+Dashboard-ready extracts are written to:
+
+```text
+data/exports/
+```
+
+The Qlik Sense and Spotfire dashboards follow the shared requirements in [`docs/dashboard-spec.md`](docs/dashboard-spec.md).
+
+## Data validation
+
+Validation runs before data is loaded into PostgreSQL.
+
+Checks include:
+
+* Required fields and parseable dates
+* Numeric observation values
+* Duplicate dates within a series
+* Missing periods in monthly series
+* Plausible ranges for each indicator category
+* Stale series based on expected release schedules
+* Warehouse row-count reconciliation
+* Orphaned foreign keys after loading
+
+Validation results are classified as:
+
+* **Critical:** Stops the pipeline
+* **Warning:** Appears in the report but allows the pipeline to continue
+
+## Warehouse design
+
+| Table                     | Grain                                                                |
+| ------------------------- | -------------------------------------------------------------------- |
+| `fact_observations`       | One row per series and observation date                              |
+| `mart_debt_cycle_monthly` | One row per month containing national indicators and derived metrics |
+| `mart_state_monthly`      | One row per state and month                                          |
+| `dim_series`              | Metadata for each FRED series                                        |
+| `dim_date`                | Shared date dimension                                                |
+
+Derived metrics are calculated before the data reaches either dashboard. This keeps the Qlik and Spotfire versions consistent instead of recreating the same calculations separately in each platform.
+
+Each record in `dim_series` also has a `cycle_lens` value:
+
+```text
+deflationary
+inflationary
+both
+```
+
+This allows dashboard users to filter indicators based on the type of debt-cycle pressure each series is intended to measure.
+
+## Derived indicators
+
+The transformation layer calculates the metrics used by both dashboards.
+
+These include:
+
+* Year-over-year percentage changes
+* Rolling 10-year averages
+* Rolling 10-year standard deviations
+* Rolling z-scores
+* Yield-curve inversion flags
+* Credit stress measures
+* A composite cycle pressure score
+
+The composite score combines standardized readings from selected debt, credit, interest-rate, inflation, and labor-market indicators.
+
+Calculating these metrics once in the data pipeline ensures that both BI tools display the same results.
+
+## Monthly summary
+
+`etl/brief.py` sends the latest 13 months of national indicators and state-level extremes to Claude through Amazon Bedrock.
+
+The generated summary contains four sections:
+
+* What Changed
+* Cycle Position
+* Regional Notes
+* What to Watch
+
+The summary is saved to:
+
+```text
+reports/briefs/YYYY-MM.md
+```
+
+This provides a written explanation of the latest movements instead of leaving the conclusions only inside dashboard charts.
 
 ## Scheduled refresh
 
-`.github/workflows/monthly-refresh.yml` runs the full pipeline on the 5th of each month against a containerized Postgres, then commits the refreshed validation report and brief. Repo secrets required: `FRED_API_KEY`, plus optional `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` / `AWS_REGION` for the brief.
+The workflow in:
+
+```text
+.github/workflows/monthly-refresh.yml
+```
+
+runs on the fifth day of each month.
+
+It starts a PostgreSQL container, runs the pipeline, and commits the updated validation report and monthly summary.
+
+Required GitHub secret:
+
+```text
+FRED_API_KEY
+```
+
+Optional secrets for the Bedrock summary:
+
+```text
+AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY
+AWS_REGION
+```
 
 ## Dashboards
 
-The same three-page spec built twice. Findings from building it in both tools are in [docs/comparison.md](docs/comparison.md).
+Both dashboards use the same three-page specification:
 
-**Qlik Sense**
+1. Current Conditions
+2. Debt Cycle View
+3. State Unemployment Drill-Down
+
+### Qlik Sense
 
 ![Qlik current conditions](docs/screenshots/qlik-current-conditions.png)
+
 ![Qlik debt cycle view](docs/screenshots/qlik-debt-cycle-view.png)
+
 ![Qlik state drill-down](docs/screenshots/qlik-state-drilldown.png)
 
-**TIBCO Spotfire**
+### TIBCO Spotfire
 
 ![Spotfire current conditions](docs/screenshots/spotfire-current-conditions.png)
+
 ![Spotfire debt cycle view](docs/screenshots/spotfire-debt-cycle-view.png)
+
 ![Spotfire state drill-down](docs/screenshots/spotfire-state-drilldown.png)
 
-## Platform comparison
+## Qlik Sense vs. TIBCO Spotfire
 
-Scored tables and the verdict are in [docs/comparison.md](docs/comparison.md). Short version: Qlik for governed, reproducible dashboards (the entire app was built through its Engine and REST APIs); Spotfire for exploratory analysis (individual scales per measure made a five-measure chart readable that Qlik flattened).
+The full comparison is available in [`docs/comparison.md`](docs/comparison.md).
+
+The main findings were:
+
+* **Qlik Sense** was better suited to controlled and repeatable dashboard development. Its Engine and REST APIs also made more of the application build process reproducible.
+* **TIBCO Spotfire** was stronger for exploratory analysis. Its individual scale options made it easier to compare several indicators with very different ranges on the same chart.
+
+Neither platform was stronger in every area. Building the same dashboard in both made it possible to compare their actual implementation and analysis workflows instead of relying only on published feature lists.
