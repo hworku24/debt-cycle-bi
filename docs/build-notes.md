@@ -54,7 +54,7 @@ Trial clock started 2026-07-30 (Qlik Cloud Analytics, 30 days).
 
 Same three pages, same spec.
 
-- Trial turned out to be Windows-only desktop software. No Windows machine here, so the build ran on a Windows Server 2022 instance on EC2 (m7i-flex.large, on free credits) over RDP
+- Trial turned out to be Windows-only desktop software. No Windows machine here, so the build ran on a Windows Server 2022 instance on EC2 (m7i-flex.large) over RDP
 - Built pages 1 to 3: eight KPI tiles with sparklines, two multi-measure time series, state bar chart with table and trend
 - Screenshots prefixed spotfire-, cropped
 - Build notes in comparison.md, including the Sum-by-default and Year-binning traps and the individual-scales win
